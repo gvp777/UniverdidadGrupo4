@@ -22,8 +22,8 @@ public class TestMain {
             
            Statement st = con.createStatement(); 
             
-            String sql = "INSERT INTO alumno( apellido, nombre, legajo, activo)"
-                  + " VALUES ('Perez','Jorge',777, true)";
+            String sql = "INSERT INTO alumno( apellido,nombre,fechaNac,legajo,activo)"
+                  + " VALUES ('Perez','martin','19770927',10101,true)";
             
             st.executeUpdate(sql);
             
