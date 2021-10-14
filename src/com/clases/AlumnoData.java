@@ -1,0 +1,199 @@
+
+package com.clases;
+
+
+import com.coneccion.ConectarBD;
+import com.mysql.jdbc.Statement;
+
+import java.time.LocalDate;
+
+import java.util.List;
+import java.util.logging.Logger;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Date;
+import java.util.ArrayList;
+
+
+
+public class AlumnoData {
+    
+    private Connection conexion = null;                                         // atributo
+
+    //---CONSTRUCTOR------------------------------------------------------------
+    public AlumnoData(ConectarBD conexionParam) {
+        
+        this.conexion = conexionParam.getConexion();
+    }
+    
+    //---METODOS----------------------------------------------------------------
+    public void guardarAlumno(Alumno alumnoParam){
+       
+        String sentenciaSql = "INSERT INTO alumno(apellido,nombre,fechaNac,legajo,activo)"
+                                      + " VALUES (?,?,?,?,?)";                              //<--- Ejempleo con prepareStatement 
+                     
+                    //     + " VALUES ('Perez','martin','19770927',10101,true)";            //<--- Ejmpleo con valores clasico
+        try {
+            
+            PreparedStatement prepStatem = conexion.prepareStatement(sentenciaSql, Statement.RETURN_GENERATED_KEYS ); //<---Preparamos el Statement pasando la sentencia y 'el segundo parametro' es para que nos retorne el id que le dio despues de insertar un nuevo registro
+            
+            
+            //---Reunimos la informacion para pasarle a cada singo de pregunta (?) de la sentenciaSql
+            
+            prepStatem.setString(1, alumnoParam.getApellido());                 //<--- El primer argumento, es la posicion 1(uno) de los signos de pregunta (?) en la sentenciaSql
+            prepStatem.setString(2, alumnoParam.getNombre());                   
+            prepStatem.setDate(3, (Date) alumnoParam.getFechaNac());            //<---* Solo me dejo si casteo a (Date) y no con Date.valueOf
+            prepStatem.setInt(4, alumnoParam.getLegajo()); 
+            prepStatem.setBoolean(5, alumnoParam.isActivo()); 
+      
+            prepStatem.executeUpdate();                                         //<--- Por ultimo, ejecutamos el Statement  IMPORTANTE:No recibe nada por parametro, es una confusion comun en los alumnos (explica Saez)
+            
+            ResultSet resultSet = prepStatem.getGeneratedKeys();                //<--- Cuando termino de ejecutar en la BD la Sentencia,  le pido que me devuelva las llaves que genero  y se las asigno a una variable resultSet  (Osea, la respuesta del Set) ResulSet es UN CONJUNTO DE RESULTADOS, Esto lo quiero para refrescar la caja de texto (si lo necesitara)
+            
+            if (resultSet.next()){
+                alumnoParam.setId(resultSet.getInt(1));                         //<--- Guarda el id almacenado en el resulSet, en el objeto Alumno que viene por paramametro
+            }else{
+                System.out.println("No fue posible obtener el id!");
+            }
+            
+            prepStatem.close();                                                 //<---Cerramos el Statement (faltaria, tal vez, cerrar la conexion)
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                    
+                    
+    }
+    
+    //-------------------------------------------------
+    public Alumno buscarrAlumno(int idParam){
+       
+          Alumno alumnoObj = null;
+          String sentenciaSql = "SELECT * FROM alumno WHERE idAlumno=?";
+          
+          try {
+              
+                PreparedStatement prepStatem = conexion.prepareStatement(sentenciaSql); 
+                prepStatem.setInt(1, idParam);
+
+                ResultSet resultSet = prepStatem.executeQuery();  
+
+                while(resultSet.next()){                                        //<--- Mientras haya algo ene l resulSet, se va seteando de a uno 
+
+                    alumnoObj = new Alumno();
+
+                    alumnoObj.setId(resultSet.getInt("idAlumno"));
+                    alumnoObj.setNombre(resultSet.getString("nombre"));
+                    alumnoObj.setApellido(resultSet.getString("apellido"));
+                    alumnoObj.setLegajo(resultSet.getInt("legajo"));
+                    alumnoObj.setFechaNac(resultSet.getDate("fechaNac"));       //<--- Fataria el .toLocalDate de esta forma, da error ahora poreque no esta creado.   Ejemplo: (resultSet.getDate("fechaNac").toLocalDate());
+                    alumnoObj.setActivo(resultSet.getBoolean("activo"));
+                }    
+                
+                prepStatem.close();                                             //<---Cerramos el Statement (faltaria, tal vez, cerrar la conexion)
+            
+            } catch (SQLException ex) {
+                Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        return alumnoObj;
+    }
+    
+    //-------------------------------------------------
+    public List<Alumno> listarAlumnos(){                                        //<--- Se le puede pasa por parametro un apellido para que no es devuelva un conjunto de alumnos con ese apellido
+        
+          Alumno alumnoObj = null;
+          List<Alumno> alumnoLista = new ArrayList<>();
+          String sentenciaSql = "SELECT * FROM alumno";                         //<--- La sentencia, de esta forma, devuelve todos los alumnos de la BD  (sin ningun filtro)    
+          
+          try {
+              
+                PreparedStatement prepStatem = conexion.prepareStatement(sentenciaSql); 
+          //    prepStatem.setInt(1, idParam);
+
+                ResultSet resultSet = prepStatem.executeQuery();  
+
+                while(resultSet.next()){                                        //<--- Mientras haya algo ene l resulSet, se va seteando de a uno 
+
+                    alumnoObj = new Alumno();
+
+                    alumnoObj.setId(resultSet.getInt("idAlumno"));
+                    alumnoObj.setNombre(resultSet.getString("nombre"));
+                    alumnoObj.setApellido(resultSet.getString("apellido"));
+                    alumnoObj.setLegajo(resultSet.getInt("legajo"));
+                    alumnoObj.setFechaNac(resultSet.getDate("fechaNac"));       //<--- Faltaria el .toLocalDate de esta forma, da error ahora poreque no esta creado.   Ejemplo: (resultSet.getDate("fechaNac").toLocalDate());
+                    alumnoObj.setActivo(resultSet.getBoolean("activo"));
+                
+                    alumnoLista.add(alumnoObj);                                 //<--- Aca va almacenando en la lista cada alumno obtenido de la BD
+                }    
+                
+                prepStatem.close();                                             //<---Cerramos el Statement (faltaria, tal vez, cerrar la conexion)
+            
+            } catch (SQLException ex) {
+                Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+            }
+   
+        return alumnoLista;
+    }
+    
+    //-------------------------------------------------
+    public void actualizarAlumno(Alumno alumnoParam){                           //---¿No tendria que retornar una confirmacion si la sentencia se pudo concretretar o no?
+       
+        String sentenciaSql = "UPDATE alumno "
+                            + "SET apellido=?,nombre=?,fechaNac=?,legajo=?,activo=? "
+                            + "WHERE idAlumno=?";                         
+                    
+        try {
+            
+            PreparedStatement prepStatem = conexion.prepareStatement(sentenciaSql); //<---Preparamos el Statement pasando la sentencia 
+
+            //---Reunimos la informacion para pasarle a cada singo de pregunta (?) de la sentenciaSql
+            
+            prepStatem.setString(1, alumnoParam.getApellido());                 //<--- El primer argumento, es la posicion 1(uno) de los signos de pregunta (?) en la sentenciaSql
+            prepStatem.setString(2, alumnoParam.getNombre());                   
+            prepStatem.setDate(3, (Date) alumnoParam.getFechaNac());            //<---* Solo me dejo si casteo a (Date) y no con Date.valueOf
+            prepStatem.setInt(4, alumnoParam.getLegajo()); 
+            prepStatem.setBoolean(5, alumnoParam.isActivo()); 
+            
+            prepStatem.setInt(6, alumnoParam.getId()); 
+                  
+            prepStatem.executeUpdate();                                         //<--- Por ultimo, ejecutamos el Statement  IMPORTANTE:No recibe nada por parametro, es una confusion comun en los alumnos (explica Saez)
+      
+            prepStatem.close();                                                 //<---Cerramos el Statement (faltaria, tal vez, cerrar la conexion)
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    //-------------------------------------------------
+    public void borrarAlumno(int idParam){                                      //---¿No tendria que retornar una confirmacion si la sentencia se pudo concretretar o no?
+
+        String sentenciaSql = "DELETE "
+                            + "FROM alumno "
+                            + "WHERE idAlumno=?";                         
+                    
+        try {
+            
+            PreparedStatement prepStatem = conexion.prepareStatement(sentenciaSql); //<---Preparamos el Statement pasando la sentencia 
+                  
+            prepStatem.setInt(1, idParam ); 
+                  
+            prepStatem.executeUpdate();                                         //<--- Por ultimo, ejecutamos el Statement  IMPORTANTE:No recibe nada por parametro, es una confusion comun en los alumnos (explica Saez)
+      
+            prepStatem.close();                                                 //<---Cerramos el Statement (faltaria, tal vez, cerrar la conexion)
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+    }
+    //--------------------------------------------------------------------------
+    
+}

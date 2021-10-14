@@ -10,14 +10,17 @@ import java.util.logging.Logger;
 
 public class ConectarBD {
     
-    Connection conexion = null;
+    private Connection conexion = null;                                         //atributo                    
     
+    //---METODO-----------------------------------------------------------------
     public Connection getConexion(){
         
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+        
+            Class.forName("com.mysql.jdbc.Driver");                             //<---En el ejemplo de Saez esta en un contructor
             conexion = DriverManager.getConnection("jdbc:mysql://localhost/universidadg4","root","");
-            System.out.println("La coneccion fue establecida");        
+            System.out.println("La conexion fue establecida");  
+            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ConectarBD.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -25,7 +28,6 @@ public class ConectarBD {
         }
     
         return conexion; 
-    
     }
-    
+    //--------------------------------------------------------------------------
 }
