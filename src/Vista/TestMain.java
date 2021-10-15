@@ -1,6 +1,8 @@
-package com.clases;
+package Vista;
 
-import com.coneccion.ConectarBD;
+import Control.AlumnoData;
+import Control.ConectarBD;
+import Modelo.Alumno;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -27,7 +29,7 @@ public class TestMain {
            Statement st = con.createStatement(); 
             
             String sentenciaSql = "INSERT INTO alumno( apellido,nombre,fechaNac,legajo,activo)"
-                  + " VALUES ('Perez','martin','19770927',10101,true)";
+                  + " VALUES ('Perez','martin','19301927',10101,true)";
             
             st.executeUpdate(sentenciaSql);
             
@@ -45,8 +47,7 @@ public class TestMain {
    
         String apellido = "Lucero";
         String nombre = "Jose";
-   
-   
+      
         SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
    
         String fecha = formato.format("07102021");                              //<--- Hacemos de cuenta que tomamos la fecha de la vista
@@ -56,13 +57,14 @@ public class TestMain {
         int legajo = 1775;
         
         boolean activo = true;
-     /*   
+        
         Alumno alumno = new Alumno(apellido,nombre,fechaNac,legajo,activo);     // ERROR AL PASAR, EN EL CONTRUCTOR, fechaNac de LocalDate
         
         AlumnoData alumnoData = new AlumnoData(conexion);
         
+        
         alumnoData.guardarAlumno(alumno);
-      */  
+       
         
     }
     

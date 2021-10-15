@@ -1,11 +1,10 @@
 
-package com.clases;
+package Control;
 
 
-import com.coneccion.ConectarBD;
+import Modelo.Alumno;
 import com.mysql.jdbc.Statement;
 
-import java.time.LocalDate;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -18,12 +17,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Date;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 
 
 public class AlumnoData {
     
-    private Connection conexion = null;                                         // atributo
+    private Connection conexion = null;                                         
 
     //---CONSTRUCTOR------------------------------------------------------------
     public AlumnoData(ConectarBD conexionParam) {
@@ -47,7 +47,7 @@ public class AlumnoData {
             
             prepStatem.setString(1, alumnoParam.getApellido());                 //<--- El primer argumento, es la posicion 1(uno) de los signos de pregunta (?) en la sentenciaSql
             prepStatem.setString(2, alumnoParam.getNombre());                   
-            prepStatem.setDate(3, (Date) alumnoParam.getFechaNac());            //<---* Solo me dejo si casteo a (Date) y no con Date.valueOf
+            prepStatem.setDate(3, Date.valueOf( alumnoParam.getFechaNac()));    //<---* Solo me dejo si casteo a (Date) y no con Date.valueOf
             prepStatem.setInt(4, alumnoParam.getLegajo()); 
             prepStatem.setBoolean(5, alumnoParam.isActivo()); 
       
@@ -57,24 +57,28 @@ public class AlumnoData {
             
             if (resultSet.next()){
                 alumnoParam.setId(resultSet.getInt(1));                         //<--- Guarda el id almacenado en el resulSet, en el objeto Alumno que viene por paramametro
-            }else{
-                System.out.println("No fue posible obtener el id!");
+                JOptionPane.showMessageDialog(null, "El alumno se guardo con exito");
             }
-            
+         
             prepStatem.close();                                                 //<---Cerramos el Statement (faltaria, tal vez, cerrar la conexion)
             
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+            
+            JOptionPane.showMessageDialog(null, "El alumno no puedo guardar");
+   
         }
                     
                     
     }
     
     //-------------------------------------------------
-    public Alumno buscarrAlumno(int idParam){
+    public Alumno buscarAlumno(int idParam){
        
           Alumno alumnoObj = null;
-          String sentenciaSql = "SELECT * FROM alumno WHERE idAlumno=?";
+          String sentenciaSql = "SELECT * "
+                              + "FROM alumno "
+                              + "WHERE idAlumno = ? "
+                              + "AND activo = true ";
           
           try {
               
@@ -90,15 +94,15 @@ public class AlumnoData {
                     alumnoObj.setId(resultSet.getInt("idAlumno"));
                     alumnoObj.setNombre(resultSet.getString("nombre"));
                     alumnoObj.setApellido(resultSet.getString("apellido"));
+                    alumnoObj.setFechaNac(resultSet.getDate("fechaNac").toLocalDate());   //<--- Fataria el .toLocalDate de esta forma, da error ahora poreque no esta creado.   Ejemplo: (resultSet.getDate("fechaNac").toLocalDate());
                     alumnoObj.setLegajo(resultSet.getInt("legajo"));
-                    alumnoObj.setFechaNac(resultSet.getDate("fechaNac"));       //<--- Fataria el .toLocalDate de esta forma, da error ahora poreque no esta creado.   Ejemplo: (resultSet.getDate("fechaNac").toLocalDate());
                     alumnoObj.setActivo(resultSet.getBoolean("activo"));
                 }    
                 
                 prepStatem.close();                                             //<---Cerramos el Statement (faltaria, tal vez, cerrar la conexion)
             
             } catch (SQLException ex) {
-                Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null,"Error al buscar alumno!" );
             }
 
         return alumnoObj;
@@ -109,7 +113,10 @@ public class AlumnoData {
         
           Alumno alumnoObj = null;
           List<Alumno> alumnoLista = new ArrayList<>();
-          String sentenciaSql = "SELECT * FROM alumno";                         //<--- La sentencia, de esta forma, devuelve todos los alumnos de la BD  (sin ningun filtro)    
+          
+          String sentenciaSql = "SELECT * "
+                              + "FROM alumno "
+                              + "WHERE activo = true";                          //<--- La sentencia, de esta forma, devuelve todos los alumnos de la BD  (sin ningun filtro)    
           
           try {
               
@@ -118,15 +125,15 @@ public class AlumnoData {
 
                 ResultSet resultSet = prepStatem.executeQuery();  
 
-                while(resultSet.next()){                                        //<--- Mientras haya algo ene l resulSet, se va seteando de a uno 
+                while(resultSet.next()){                                        //<--- Mientras haya algo en el resulSet, se va seteando de a uno 
 
                     alumnoObj = new Alumno();
 
                     alumnoObj.setId(resultSet.getInt("idAlumno"));
                     alumnoObj.setNombre(resultSet.getString("nombre"));
                     alumnoObj.setApellido(resultSet.getString("apellido"));
+                    alumnoObj.setFechaNac(resultSet.getDate("fechaNac").toLocalDate());       //<--- Faltaria el .toLocalDate de esta forma, da error ahora poreque no esta creado.   Ejemplo: (resultSet.getDate("fechaNac").toLocalDate());
                     alumnoObj.setLegajo(resultSet.getInt("legajo"));
-                    alumnoObj.setFechaNac(resultSet.getDate("fechaNac"));       //<--- Faltaria el .toLocalDate de esta forma, da error ahora poreque no esta creado.   Ejemplo: (resultSet.getDate("fechaNac").toLocalDate());
                     alumnoObj.setActivo(resultSet.getBoolean("activo"));
                 
                     alumnoLista.add(alumnoObj);                                 //<--- Aca va almacenando en la lista cada alumno obtenido de la BD
@@ -135,18 +142,21 @@ public class AlumnoData {
                 prepStatem.close();                                             //<---Cerramos el Statement (faltaria, tal vez, cerrar la conexion)
             
             } catch (SQLException ex) {
-                Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null,"Error al obtener lista de alumnos!" );
             }
    
         return alumnoLista;
     }
     
     //-------------------------------------------------
-    public void actualizarAlumno(Alumno alumnoParam){                           //---¿No tendria que retornar una confirmacion si la sentencia se pudo concretretar o no?
-       
+    public boolean actualizarAlumno(Alumno alumnoParam){                           //---¿No tendria que retornar una confirmacion si la sentencia se pudo concretretar o no?
+        
+        boolean estado = false ;
+        
         String sentenciaSql = "UPDATE alumno "
-                            + "SET apellido=?,nombre=?,fechaNac=?,legajo=?,activo=? "
-                            + "WHERE idAlumno=?";                         
+                            + "SET apellido = ?, nombre = ?, fechaNac = ?,legajo = ?,activo = ? "
+                            + "WHERE idAlumno = ?"
+                            + "AND activo = true";                         
                     
         try {
             
@@ -156,28 +166,37 @@ public class AlumnoData {
             
             prepStatem.setString(1, alumnoParam.getApellido());                 //<--- El primer argumento, es la posicion 1(uno) de los signos de pregunta (?) en la sentenciaSql
             prepStatem.setString(2, alumnoParam.getNombre());                   
-            prepStatem.setDate(3, (Date) alumnoParam.getFechaNac());            //<---* Solo me dejo si casteo a (Date) y no con Date.valueOf
+            prepStatem.setDate(3, Date.valueOf( alumnoParam.getFechaNac()));            //<---* Solo me dejo si casteo a (Date) y no con Date.valueOf
             prepStatem.setInt(4, alumnoParam.getLegajo()); 
             prepStatem.setBoolean(5, alumnoParam.isActivo()); 
             
             prepStatem.setInt(6, alumnoParam.getId()); 
                   
-            prepStatem.executeUpdate();                                         //<--- Por ultimo, ejecutamos el Statement  IMPORTANTE:No recibe nada por parametro, es una confusion comun en los alumnos (explica Saez)
-      
+            if( prepStatem.executeUpdate() > 0){                                         //<--- Por ultimo, ejecutamos el Statement  IMPORTANTE:No recibe nada por parametro, es una confusion comun en los alumnos (explica Saez)
+                JOptionPane.showMessageDialog(null,"Se actulizo el alumno Exitosamente!" );
+                estado = true;
+            }else{
+                JOptionPane.showMessageDialog(null,"Hubo un problema en actualizar alumno" );
+                
+            }        
+            
             prepStatem.close();                                                 //<---Cerramos el Statement (faltaria, tal vez, cerrar la conexion)
             
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,"Error al actualizar alumno!" );
         }
-
+        return estado;
     }
     
     //-------------------------------------------------
-    public void borrarAlumno(int idParam){                                      //---¿No tendria que retornar una confirmacion si la sentencia se pudo concretretar o no?
-
-        String sentenciaSql = "DELETE "
-                            + "FROM alumno "
-                            + "WHERE idAlumno=?";                         
+    public boolean borrarAlumno(int idParam){                                      //---¿No tendria que retornar una confirmacion si la sentencia se pudo concretretar o no?
+        
+        boolean estado = false ;
+        
+        String sentenciaSql = "UPDATE alumno "
+                            + "SET activo = ? "
+                            + "WHERE idAlumno = ?";
+                                                 
                     
         try {
             
@@ -185,14 +204,18 @@ public class AlumnoData {
                   
             prepStatem.setInt(1, idParam ); 
                   
-            prepStatem.executeUpdate();                                         //<--- Por ultimo, ejecutamos el Statement  IMPORTANTE:No recibe nada por parametro, es una confusion comun en los alumnos (explica Saez)
-      
+            if( prepStatem.executeUpdate() > 0){                                         //<--- Por ultimo, ejecutamos el Statement  IMPORTANTE:No recibe nada por parametro, es una confusion comun en los alumnos (explica Saez)
+                JOptionPane.showMessageDialog(null,"Se dio de baja el alumno Exitosamente!" );
+                estado = true;
+            }else{
+                JOptionPane.showMessageDialog(null,"Hubo un problema en borrar alumno" );
+            }     
             prepStatem.close();                                                 //<---Cerramos el Statement (faltaria, tal vez, cerrar la conexion)
             
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,"Error al borrar alumno!" );
         }
-       
+       return estado;
     }
     //--------------------------------------------------------------------------
     
