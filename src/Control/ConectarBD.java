@@ -35,7 +35,7 @@ public class ConectarBD {
     }
     
     
-    public Connection getConexionActiva() {
+    public Connection getConexionActiva() {                                     //<---Que nos devuleva la conexion ya abierta con la BD
         return conexion;
     }
 

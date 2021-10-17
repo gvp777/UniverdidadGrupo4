@@ -7,45 +7,46 @@ import java.util.Objects;
 
 
 public class Alumno {
-    private int id = -1;                                                        //<--- Saez agrega este atributo y lo inicializa en -1 (corrsponde a la CLAVE PRIMARIA)
+    
+    //---ATRIBUTOS--------------------------------------------------------------
+    private int id = -1;                                                        
     private String nombre;                                                      //se parsea a VARCHAR
     private String apellido;                                                    //se parsea a VARCHAR
-    private LocalDate fechaNac;                                                      // se parsea a DATETIME
+    private LocalDate fechaNac;                                                 // se parsea a DATETIME
     private int legajo;     
-    private boolean activo;                                                     //se parsea a TINYINT   (ponemos boolean y la BD sola dice que es un TINYINT
+    private boolean activo;                                                     //se parsea a TINYINT   (ponemos boolean y la BD sola dice que es un TINYINT)
     
    
     
-    //---CONTRUCTOR-------------------------------------------------------------
-
-    // 3 construcotres en total
+    //---CONTRUCTORES-----------------------------------------------------------
     
-    public Alumno(String apellido, String nombre, LocalDate fechaNac, int legajo, boolean activo) {
-        this.id = -1;                                                           //<--- Saez agrega este atributo como es clave autoincrementan en la BD no la poasa por parametro
-        this.nombre = nombre;
+    public Alumno(int id,String apellido, String nombre, LocalDate fechaNac, int legajo, boolean activo) {
+        this.id = id;                                                           
         this.apellido = apellido;
+        this.nombre = nombre;
         this.fechaNac = fechaNac;
         this.legajo = legajo;
         this.activo = activo;
     }
 
+    public Alumno(String apellido, String nombre, LocalDate fechaNac, int legajo, boolean activo) {
+        this.apellido = apellido;
+        this.nombre = nombre;
+        this.fechaNac = fechaNac;
+        this.legajo = legajo;
+        this.activo = activo;
+    }
+            
+    public Alumno(){                                                            
     
-
-
-    
-    public Alumno(){                                                            //<---2º contructor    
-    
-        this.id = -1;
+       
     }
     
-    
-
     
     //---GETTERS Y SETTERS------------------------------------------------------
     public int getId() {    
         return id;
     }
-
     
     public void setId(int id) {
         this.id = id;
@@ -90,11 +91,17 @@ public class Alumno {
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
-    //--------------------------------------------------------------------------
 
+    
+    //---TOSTRING-HASHCODE-EQUALS-----------------------------------------------
     @Override
     public String toString() {
-        return "Alumno{" + "id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", fechaNac=" + fechaNac + ", legajo=" + legajo + ", activo=" + activo + '}';
+        return "\n\tAlumno{" + "id=" + id 
+                + ", nombre=" + nombre 
+                + ", apellido=" + apellido 
+                + ", fechaNac=" + fechaNac 
+                + ", legajo=" + legajo 
+                + ", activo=" + activo + '}';
     }
 
     @Override
@@ -141,6 +148,6 @@ public class Alumno {
         }
         return true;
     }
-    
+    //--------------------------------------------------------------------------
     
 }

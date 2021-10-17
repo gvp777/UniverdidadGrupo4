@@ -5,12 +5,13 @@ import java.util.Objects;
 
 public class Materia {
     
+    //---ATRIBUTOS--------------------------------------------------------------
     private int id = -1;   
     private String nombre;
     private int anio;
     private boolean activo;
 
-    
+    //---CONSTRUTCTORES---------------------------------------------------------
     public Materia(String nombre, int anio, boolean activo) {
         this.nombre = nombre;
         this.anio = anio;
@@ -23,16 +24,13 @@ public class Materia {
         this.anio = anio;
         this.activo = activo;
     }
-
     
     public Materia() {
     
     }
     
-       
     
-    
-    
+    //---GETTERS Y SETTERS------------------------------------------------------
     public int getId() {
         return id;
     }
@@ -66,9 +64,13 @@ public class Materia {
         this.activo = activo;
     }
 
+    //---TOSTRING-HASHCODE-EQUALS-----------------------------------------------
     @Override
     public String toString() {
-        return "Materia{" + "id=" + id + ", nombre=" + nombre + ", anio=" + anio + ", activo=" + activo + '}';
+        return "\n\tMateria{" + "id=" + id + 
+                ", nombre=" + nombre + 
+                ", anio=" + anio + 
+                ", activo=" + activo + '}';
     }
 
     @Override
@@ -107,7 +109,7 @@ public class Materia {
         }
         return true;
     }
-    
+    //--------------------------------------------------------------------------
     
     
 }
