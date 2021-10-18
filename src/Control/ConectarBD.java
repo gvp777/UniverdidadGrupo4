@@ -13,7 +13,7 @@ public class ConectarBD {
     
     
     private String direccion = "jdbc:mysql://localhost/universidadg4";
-    private Connection conexion = null;                                         //atributo                    
+    private Connection conexion = null;                                                          
     
     //---METODO-----------------------------------------------------------------
     public Connection getConexion(){

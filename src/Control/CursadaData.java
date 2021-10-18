@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Control;
 
 import com.mysql.jdbc.Statement;
@@ -22,25 +18,28 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Maxi Ybañez
- */
-public class CursadaData {
-  
-     private Connection conexion= null;   
-     private AlumnoData alumData=null;
-     private MateriaData mateData=null;
 
+public class CursadaData {
+    
+    //---- ATRIBUTO ------------------------------------------------------------
+    
+    private Connection conexion= null;   
+    private AlumnoData alumData=null;
+    private MateriaData mateData=null;
+     
+    //---- CONSTRUCTOR --------------------------------------------------------- 
     public CursadaData(ConectarBD conexionParam) {
         this.conexion = conexionParam.getConexion();
         this.alumData= new AlumnoData(conexionParam);
         this.mateData= new MateriaData(conexionParam);
     }
     
+    //----METODO - GUARDAR ALUMNO ----------------------------------------------
     public boolean guardarIncripcion( Cursada cursada){
+        
        boolean confirmacion=false; //
-       String sentenciaSql = "INSERT INTO cursada`(`idMateria`,`idAlumno`, `nota`, `activo`)" + " VALUES (?,?,?,?)";                          
+       
+       String sentenciaSql = "INSERT INTO cursada(idMateria, idAlumno, nota, activo)" + " VALUES (? , ? , ? , ?)";                          
          
         try {
             PreparedStatement prepStatem = conexion.prepareStatement(sentenciaSql, Statement.RETURN_GENERATED_KEYS ); 
@@ -65,10 +64,10 @@ public class CursadaData {
             JOptionPane.showMessageDialog(null," Error, no se pudo inscribir a la materia");
         }
       return confirmacion;
-   } 
+    } 
     
-    
-      public boolean borrarCursada( int idAlumno, int idMateria){
+    //----METODO - BORRAR INSCRIPCION ------------------------------------------    
+    public boolean borrarIncripcion( int idAlumno, int idMateria){
        boolean confirmacion=false; //
        
        String sentenciaSql = "UPDATE Cursada SET activo = false  WHERE Cursada.idAlumno = ? and Cursada.idMateria = ? " ;   
@@ -89,9 +88,10 @@ public class CursadaData {
             JOptionPane.showMessageDialog(null," Error, en borrar cursada"+ ex);
         }
       return confirmacion;
-   }  
+    }  
     
-     public List<Cursada> obtenerCursada(){
+    //----METODO - OBTENER INSCRIPCION -----------------------------------------  
+    public ArrayList<Cursada> obtenerIncripcion(){
         ArrayList<Cursada> incriptos = new ArrayList<>(); 
         String sentenciaSql = "SELECT * FROM Cursada WHERE cursada.activo = true "; 
         
@@ -114,26 +114,26 @@ public class CursadaData {
             JOptionPane.showMessageDialog(null," Error, en obtener cursadas"+ ex);
         }
         return incriptos;
-   } 
-     
-      public List<Materia> obtenerMateriasIncriptas( int idAlumno){ //alumnos activos que hacen esa materia
+    } 
+    
+    //----METODO - BORRAR MATERIA INSCRIPTAS -----------------------------------   
+    public ArrayList<Materia> obtenerMateriasIncriptas( int idAlumno){ //alumnos activos que hacen esa materia
         ArrayList<Materia> materiasIncriptas = new ArrayList<>(); // Lista para retornar con alumnos
-        String sentenciaSql ="SELECT materia.idMateria, nombreMateria, anio, materia.activo\n"
-                    + "FROM materia, cursada\n"
-                    + "WHERE materia.idMateria = cursada.idMateria\n"
-                    + "AND cursada.activo = true \n"
-                    + "AND cursada.idAlumno = ?";  
+        String sentenciaSql ="SELECT materia.idMateria, materia.nombreMateria, materia.anio, materia.activo "
+                    + "FROM materia, cursada "
+                    + "WHERE materia.idMateria = cursada.idMateria "
+                    + "AND cursada.activo = true "
+                    + "AND cursada.idAlumno = ? ";  
         
         try {
             PreparedStatement prepStatem = conexion.prepareStatement(sentenciaSql); 
            
             prepStatem.setInt(1, idAlumno);
 
-            ResultSet rs = prepStatem.executeQuery();
+            ResultSet resultSet = prepStatem.executeQuery();
 
-            
-            prepStatem.executeUpdate();                                         
-            ResultSet resultSet = prepStatem.getGeneratedKeys();             
+     
+                    
             while(resultSet.next()){
                 Materia mate= new Materia();
                 mate.setId(resultSet.getInt("idMateria"));
@@ -144,35 +144,36 @@ public class CursadaData {
                                            
             }
             
-            prepStatem.close(); //<---Cerramos la conexion
+            prepStatem.close(); 
             
           } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null," Error, obtener materias incriptas"+ ex);
         }
       return materiasIncriptas;
-      }
-      
-      
-      public List<Materia> obtenerMateriasNoIncriptas( int idAlumno){ 
+    
+    }
+    
+    //----METODO - BORRAR MATERIA NO INSCRIPTAS --------------------------------            
+    public ArrayList<Materia> obtenerMateriasNoIncriptas( int idAlumno){ 
         ArrayList<Materia> materiasNoIncriptas = new ArrayList<>(); 
-        String sentenciaSql ="SELECT * \n"              
-                    + "FROM materia"
-                    + "WHERE idMateria NO IN(SELECT materia.idMateria, nombreMateria, anio, materia.activo\n"
-                    + "FROM materia, cursada\n"
-                    + "WHERE materia.idMateria = cursada.idMateria\n"
-                    + "AND cursada.activo = true \n"
-                    + "AND cursada.idAlumno = ?)";  
+        String sentenciaSql = "SELECT * "              
+                            + "FROM materia "
+                            + "WHERE idMateria NOT IN "
+                            + "(SELECT materia.idMateria, materia.nombreMateria, materia.anio, materia.activo "
+                            + "FROM materia, cursada "
+                            + "WHERE materia.idMateria = cursada.idMateria "
+                            + "AND cursada.activo = true "
+                            + "AND cursada.idAlumno = ?)";  
         
         try {
             PreparedStatement prepStatem = conexion.prepareStatement(sentenciaSql); 
            
             prepStatem.setInt(1, idAlumno);
 
-            ResultSet rs = prepStatem.executeQuery();
+            ResultSet resultSet = prepStatem.executeQuery();
 
-            
-            prepStatem.executeUpdate();                                         
-            ResultSet resultSet = prepStatem.getGeneratedKeys();             
+                          
+                       
             while(resultSet.next()){
                 Materia mate= new Materia();
                 mate.setId(resultSet.getInt("idMateria"));
@@ -188,32 +189,33 @@ public class CursadaData {
             JOptionPane.showMessageDialog(null," Error, en buscar materias no cursada"+ ex);
         }
       return materiasNoIncriptas;
-      }
-      
-   
-    public List<Alumno> listarAlumnos( int idMateria){
+    }
+    
+    //----METODO - LISTAR ALUMNOS ----------------------------------------------  
+    public ArrayList<Alumno> listarAlumnos( int idMateria){
         ArrayList<Alumno> alumnosIncriptos = new ArrayList<>(); 
-        String sentenciaSql = "SELECT alumno.idAlumno, alumno.apellido,alumno.nombre,alumno.fechaNac,alumno.legajo,alumno.activo \n" +
-                                "FROM alumno, cursada\n" +
-                                "WHERE alumno.idAlumno = cursada.idAlumno AND\n" +
-                                "cursada.idMateria = ? AND alumno.activo = true  AND cursada.activo = true";                           
+        String sentenciaSql = "SELECT alumno.idAlumno, alumno.apellido, alumno.nombre, alumno.fechaNac, alumno.legajo, alumno.activo " +
+                              "FROM alumno, cursada " +
+                              "WHERE alumno.idAlumno = cursada.idAlumno AND " +
+                              "cursada.idMateria = ? AND alumno.activo = true  AND cursada.activo = true";                           
          try {
             PreparedStatement prepStatem = conexion.prepareStatement(sentenciaSql);
             prepStatem.setInt(1,idMateria);
-            prepStatem.executeUpdate();                                         
-            ResultSet resultSet = prepStatem.getGeneratedKeys();              
+            ResultSet resultSet = prepStatem.executeQuery();                                      
+                        
             while(resultSet.next()){
                 Alumno alumnoObj= new Alumno();
-                 alumnoObj.setId(resultSet.getInt("idAlumno"));
-                    alumnoObj.setNombre(resultSet.getString("nombre"));
-                    alumnoObj.setApellido(resultSet.getString("apellido"));
-                    alumnoObj.setFechaNac(resultSet.getDate("fechaNac").toLocalDate());      
-                    alumnoObj.setLegajo(resultSet.getInt("legajo"));
-                    alumnoObj.setActivo(resultSet.getBoolean("activo"));
+                    
+                alumnoObj.setId(resultSet.getInt("idAlumno"));
+                alumnoObj.setNombre(resultSet.getString("nombre"));
+                alumnoObj.setApellido(resultSet.getString("apellido"));
+                alumnoObj.setFechaNac(resultSet.getDate("fechaNac").toLocalDate());      
+                alumnoObj.setLegajo(resultSet.getInt("legajo"));
+                alumnoObj.setActivo(resultSet.getBoolean("activo"));
                 
-                    alumnosIncriptos.add(alumnoObj);            
+                alumnosIncriptos.add(alumnoObj);            
                               
-                }
+            }
 
             prepStatem.close();                                                 
             
@@ -221,11 +223,12 @@ public class CursadaData {
             JOptionPane.showMessageDialog(null," Error, en buscar alumno "+ ex);
         }
       return alumnosIncriptos;
-   } 
+    } 
    
+    //----METODO - ACTUALIZAR NOTA ---------------------------------------------  
     public boolean actualizarNota(int idAlumno, int idMateria, float nota){
          boolean confirmacion=false;
-         String sentenciaSql = "UPDATE `cursada` SET nota = ? WHERE cursada.idAlumno = ? AND cursada.idMateria = ? AND cursada.activo = true";                           
+         String sentenciaSql = "UPDATE cursada SET nota = ? WHERE cursada.idAlumno = ? AND cursada.idMateria = ? AND cursada.activo = true ";                           
          try {
             PreparedStatement prepStatem = conexion.prepareStatement(sentenciaSql);
             prepStatem.setFloat(1,nota);
@@ -242,5 +245,5 @@ public class CursadaData {
         }
          return confirmacion;
     }
-   
+   //--------------------------------------------------------------------------- 
 }

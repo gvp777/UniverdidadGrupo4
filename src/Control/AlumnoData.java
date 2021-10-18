@@ -166,7 +166,7 @@ public class AlumnoData {
             
             prepStatem.setString(1, alumnoParam.getApellido());                 //<--- El primer argumento, es la posicion 1(uno) de los signos de pregunta (?) en la sentenciaSql
             prepStatem.setString(2, alumnoParam.getNombre());                   
-            prepStatem.setDate(3, Date.valueOf( alumnoParam.getFechaNac()));    //<---* Solo me dejo si casteo a (Date) y no con Date.valueOf
+            prepStatem.setDate(3, Date.valueOf( alumnoParam.getFechaNac()));   
             prepStatem.setInt(4, alumnoParam.getLegajo()); 
             prepStatem.setBoolean(5, alumnoParam.isActivo()); 
             
@@ -184,7 +184,7 @@ public class AlumnoData {
         return confirmacion;                                                    //<---Retornamos la confirmacion del metodo
     }
     
-    //----METODO - BORRAR ALUMNO ----------------------------------------------
+    //----METODO - BORRAR ALUMNO -----------------------------------------------
     public boolean borrarAlumno(int idParam){                                   
         
         boolean confirmacion = false ;                                          //<---Varialble creada por nosotros para poder devolver la confirmacion del metodo               
