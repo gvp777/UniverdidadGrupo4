@@ -5,16 +5,13 @@ import Modelo.Alumno;
 
 import com.mysql.jdbc.Statement;
 import javax.swing.JOptionPane;
-
 import java.util.List;
 import java.util.ArrayList;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Date;
-
 
 
 public class AlumnoData {
@@ -48,7 +45,7 @@ public class AlumnoData {
             
             prepStatem.setString(1, alumnoParam.getApellido());                 //<--- El primer argumento, es la posicion 1(uno) de los signos de pregunta (?) en la sentenciaSql
             prepStatem.setString(2, alumnoParam.getNombre());                   
-            prepStatem.setDate(3, Date.valueOf( alumnoParam.getFechaNac()));    //<---* Solo me dejo si casteo a (Date) y no con Date.valueOf
+            prepStatem.setDate(3, Date.valueOf( alumnoParam.getFechaNac()));    
             prepStatem.setInt(4, alumnoParam.getLegajo()); 
             prepStatem.setBoolean(5, alumnoParam.isActivo()); 
       

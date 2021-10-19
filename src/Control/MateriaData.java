@@ -3,18 +3,11 @@ package Control;
 
 import Modelo.Materia;
 import com.mysql.jdbc.Statement;
-
-
 import java.util.List;
-import java.util.logging.Logger;
-
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 

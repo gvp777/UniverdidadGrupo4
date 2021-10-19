@@ -1,15 +1,20 @@
 
 
 /*
-
+    GRUPO Nº 4  
     Trabajo Practico 1º Parte
     
+    Fecha: 19/10/2021
+
     Alumnos:
     Franco Maximiliano Ybañez
     Lucas Zarate
     Guillermo Visco Ponticelli
 
-NOTA:
+    Libreria: 
+    mysql-connector-java-5.1.46.jar
+
+    NOTA:
 
     -   El trabajabo lo realizamos los 3 integrantes del grupo 4 conjuntamente mediante 
         reuniones fijadas en el Zoom. 
@@ -23,18 +28,18 @@ NOTA:
     -   Preguntamos y cambiamos los metodos void a boolean para porder disparar un cartel 
         desde el main a menos que se trate de algun error capturado.
     
-    -   Borramos las tablas desde MySql para probar desde cero los metodos.
+    -   Borramos las tablas para probar desde cero los metodos.
         Al cambiar las claves primarias que devuelve, pedimos el id de cada objeto
-    
-        Sentencias para Mysql: 
-    
-        DELETE FROM `cursada`;
-        DELETE FROM `materia`;
-        DELETE FROM `alumno`
 
+    -   Cada uno hizo las clases que describimos a constinuacion:     
+        
+        Franco Maximiliano Ybañez   (Cursada - CursadaData)
+        Lucas Zarate                (Materia - MateriaData)
+        Guillermo Visco Ponticelli  (Alumno - AlumnoData)
+        
+        Revisamos, probamos y las demas clases, uml, etc. Lo hibamos armando mediante las reuniones de zoom
 
 */
-
 
 package Vista;
 
@@ -45,17 +50,11 @@ import Control.MateriaData;
 import Modelo.Alumno;
 import Modelo.Cursada;
 import Modelo.Materia;
-
 import java.sql.PreparedStatement;
-import com.mysql.jdbc.Statement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.swing.JOptionPane;
-
 
 
 public class TestMain {
@@ -63,13 +62,35 @@ public class TestMain {
  
     public static void main(String[] args) {
         
-        String sentenciaSql;
-        
-        ConectarBD conexion = new ConectarBD();
-       
-            
-        //**********************************************************************
                 
+        ConectarBD conexion = new ConectarBD();
+                    
+        //**********************************************************************
+       
+        //--- BORRAMOS LA BASE DE DATOS ----------------------------------------
+        
+            String sentenciaSql;
+            PreparedStatement prepStatem;
+
+            try {
+
+                sentenciaSql = "DELETE FROM cursada ";
+                prepStatem = conexion.getConexion().prepareStatement(sentenciaSql);
+                prepStatem.executeUpdate();
+
+                sentenciaSql = "DELETE FROM materia ";
+                prepStatem = conexion.getConexion().prepareStatement(sentenciaSql);
+                prepStatem.executeUpdate();
+
+                sentenciaSql = "DELETE FROM alumno ";
+                prepStatem = conexion.getConexion().prepareStatement(sentenciaSql);
+                prepStatem.executeUpdate();            
+
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null," Hubo un Problema al borrar las tablas de la BD!");
+            }
+        
+        
         //--- TESTEMOS ALUMNO DATA ---------------------------------------------
                 
         AlumnoData alumnoData = new AlumnoData(conexion);
