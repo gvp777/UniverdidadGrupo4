@@ -31,7 +31,7 @@ NOTA:
         DELETE FROM `cursada`;
         DELETE FROM `materia`;
         DELETE FROM `alumno`
-
+//18/10/2021
 
 */
 
