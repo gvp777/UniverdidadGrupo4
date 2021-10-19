@@ -4,8 +4,6 @@ package Control;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 
@@ -20,7 +18,7 @@ public class ConectarBD {
         
         try {
         
-            Class.forName("com.mysql.jdbc.Driver");                             //<---En el ejemplo de Saez esta en un contructor
+            Class.forName("com.mysql.jdbc.Driver");                             
             
             conexion = DriverManager.getConnection(direccion + "?useLegacyDatetimeCode=false&serverTimezone=UTC"
                     + "&user=" + "root" + "&password=" + "");

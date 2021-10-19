@@ -5,15 +5,13 @@ import java.util.Objects;
 
 public class Cursada {
 
-    //---ATRIBUTOS--------------------------------------------------------------
-    private int idCursada;
-
+    private int id;
     private Materia materia;
     private Alumno alumno;
     private float nota;
     private boolean activo;
     
-    //--Contructores-----------------------------------------------------------
+    //contructores 
     public Cursada() {
     }
 
@@ -24,21 +22,21 @@ public class Cursada {
         this.activo = activo;
     }
 
-    public Cursada(int idCursada, Materia materia, Alumno alumno, float nota, boolean activo) {
-        this.idCursada = idCursada;
+    public Cursada(int id, Materia materia, Alumno alumno, float nota, boolean activo) {
+        this.id = id;
         this.materia = materia;
         this.alumno = alumno;
         this.nota = nota;
         this.activo = activo;
     }
     //----------------------------------------------------------------------------
-    //--------Getters y Setters
-    public int getIdCursada() {
-        return idCursada;
+    //Get y Set.
+    public int getId() {
+        return id;
     }
 
-    public void setIdCursada(int idCursada) {
-        this.idCursada = idCursada;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Materia getMateria() {
@@ -74,7 +72,7 @@ public class Cursada {
 
     @Override
     public String toString() {
-        return "Cursada{" + "idCursada=" + idCursada + ", materia=" + materia + ", alumno=" + alumno + ", nota=" + nota + ", activo=" + activo + '}';
+        return "Cursada{" + "idCursada=" + id + ", materia=" + materia + ", alumno=" + alumno + ", nota=" + nota + ", activo=" + activo + '}';
     }
 
     
@@ -82,7 +80,7 @@ public class Cursada {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 97 * hash + this.idCursada;
+        hash = 97 * hash + this.id;
         hash = 97 * hash + Objects.hashCode(this.materia);
         hash = 97 * hash + Objects.hashCode(this.alumno);
         hash = 97 * hash + Float.floatToIntBits(this.nota);
@@ -102,7 +100,7 @@ public class Cursada {
             return false;
         }
         final Cursada other = (Cursada) obj;
-        if (this.idCursada != other.idCursada) {
+        if (this.id != other.id) {
             return false;
         }
         if (Float.floatToIntBits(this.nota) != Float.floatToIntBits(other.nota)) {

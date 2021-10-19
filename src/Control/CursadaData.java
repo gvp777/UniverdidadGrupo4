@@ -1,21 +1,17 @@
 
 package Control;
 
-import com.mysql.jdbc.Statement;
+
 import Control.ConectarBD;
 import Modelo.Alumno;
 import Modelo.Cursada;
 import Modelo.Materia;
 import com.mysql.jdbc.Statement;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 
@@ -53,7 +49,7 @@ public class CursadaData {
               ResultSet resultSet = prepStatem.getGeneratedKeys();                  
             
             if (resultSet.next()){
-                cursada.setIdCursada(resultSet.getInt(1));  
+                cursada.setId(resultSet.getInt(1));  
                 confirmacion=true;
                
             }
@@ -100,7 +96,7 @@ public class CursadaData {
             ResultSet resultSet = prepStatem.executeQuery(); 
              while(resultSet.next()){                                       
                     Cursada cursadaobj = new Cursada();
-                    cursadaobj.setIdCursada(resultSet.getInt("idCursada"));
+                    cursadaobj.setId(resultSet.getInt("idCursada"));
                     Alumno a= alumData.buscarAlumno(resultSet.getInt("idAlumno"));
                     cursadaobj.setAlumno(a);
                     Materia m= mateData.buscarMateria(resultSet.getInt("idMateria"));

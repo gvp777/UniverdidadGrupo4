@@ -20,6 +20,18 @@ public class Alumno {
     
     //---CONTRUCTORES-----------------------------------------------------------
     
+    public Alumno(){                                                            
+           
+    }
+    
+    public Alumno(String apellido, String nombre, LocalDate fechaNac, int legajo, boolean activo) {
+        this.apellido = apellido;
+        this.nombre = nombre;
+        this.fechaNac = fechaNac;
+        this.legajo = legajo;
+        this.activo = activo;
+    }
+              
     public Alumno(int id,String apellido, String nombre, LocalDate fechaNac, int legajo, boolean activo) {
         this.id = id;                                                           
         this.apellido = apellido;
@@ -28,20 +40,6 @@ public class Alumno {
         this.legajo = legajo;
         this.activo = activo;
     }
-
-    public Alumno(String apellido, String nombre, LocalDate fechaNac, int legajo, boolean activo) {
-        this.apellido = apellido;
-        this.nombre = nombre;
-        this.fechaNac = fechaNac;
-        this.legajo = legajo;
-        this.activo = activo;
-    }
-            
-    public Alumno(){                                                            
-    
-       
-    }
-    
     
     //---GETTERS Y SETTERS------------------------------------------------------
     public int getId() {    

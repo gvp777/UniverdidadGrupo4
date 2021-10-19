@@ -12,6 +12,11 @@ public class Materia {
     private boolean activo;
 
     //---CONSTRUTCTORES---------------------------------------------------------
+    
+    public Materia() {
+    
+    }
+    
     public Materia(String nombre, int anio, boolean activo) {
         this.nombre = nombre;
         this.anio = anio;
@@ -23,10 +28,6 @@ public class Materia {
         this.nombre = nombre;
         this.anio = anio;
         this.activo = activo;
-    }
-    
-    public Materia() {
-    
     }
     
     
