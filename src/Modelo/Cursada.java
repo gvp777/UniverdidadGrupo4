@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Cursada {
 
-
+    //---ATRIBUTOS--------------------------------------------------------------
     private int idCursada;
 
     private Materia materia;
@@ -13,7 +13,7 @@ public class Cursada {
     private float nota;
     private boolean activo;
     
-    //contructores 
+    //--Contructores-----------------------------------------------------------
     public Cursada() {
     }
 
@@ -32,7 +32,7 @@ public class Cursada {
         this.activo = activo;
     }
     //----------------------------------------------------------------------------
-    //Get y Set.
+    //--------Getters y Setters
     public int getIdCursada() {
         return idCursada;
     }
