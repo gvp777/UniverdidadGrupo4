@@ -187,8 +187,18 @@ public class MenuUniversidad extends javax.swing.JFrame {
         jMenuBar.add(jMenuArchivo);
 
         jMenuMaterias.setText("Materias");
+        jMenuMaterias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuMateriasActionPerformed(evt);
+            }
+        });
 
         jMenuItmMaterias.setText("Formulario de Materias");
+        jMenuItmMaterias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItmMateriasActionPerformed(evt);
+            }
+        });
         jMenuMaterias.add(jMenuItmMaterias);
 
         jMenuBar.add(jMenuMaterias);
@@ -196,6 +206,11 @@ public class MenuUniversidad extends javax.swing.JFrame {
         jMenuAlumnos.setText("Alumnos");
 
         jMenuItmAlumnos.setText("Formulario de Alumnos");
+        jMenuItmAlumnos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItmAlumnosActionPerformed(evt);
+            }
+        });
         jMenuAlumnos.add(jMenuItmAlumnos);
 
         jMenuBar.add(jMenuAlumnos);
@@ -215,6 +230,11 @@ public class MenuUniversidad extends javax.swing.JFrame {
         jMenuCargaDeNotas.setText("Carga de Notas");
 
         jMenuItmManipulacionDeNotas.setText("Manipulacion de Notas");
+        jMenuItmManipulacionDeNotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItmManipulacionDeNotasActionPerformed(evt);
+            }
+        });
         jMenuCargaDeNotas.add(jMenuItmManipulacionDeNotas);
 
         jMenuBar.add(jMenuCargaDeNotas);
@@ -222,6 +242,11 @@ public class MenuUniversidad extends javax.swing.JFrame {
         jMenuConsultas.setText("Consultas");
 
         jMenuItmListDeAlumnoXMateria.setText("Listado de Alumnos x Materia");
+        jMenuItmListDeAlumnoXMateria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItmListDeAlumnoXMateriaActionPerformed(evt);
+            }
+        });
         jMenuConsultas.add(jMenuItmListDeAlumnoXMateria);
 
         jMenuBar.add(jMenuConsultas);
@@ -251,17 +276,89 @@ public class MenuUniversidad extends javax.swing.JFrame {
         jDekPanEscritorio.removeAll();
         jDekPanEscritorio.repaint();
         
-        VistaFormularioDeInscripcion formDeInscrip = new VistaFormularioDeInscripcion();
+        VistaFormularioDeInscripcion form = new VistaFormularioDeInscripcion();
         
         // agregamos la vista al escritorio
-        jDekPanEscritorio.add(formDeInscrip);
+        jDekPanEscritorio.add(form);
         // centramos la vista dentro del escritoio
         Dimension desktopSize = jDekPanEscritorio.getSize();
-        Dimension FrameSize = formDeInscrip.getSize();
-        formDeInscrip.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+        Dimension FrameSize = form.getSize();
+        form.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
         // Seteamos visible a la vista
-        formDeInscrip.setVisible(true);
+        form.setVisible(true);
     }//GEN-LAST:event_jMenuItmManejoDeIncripcionesActionPerformed
+
+    private void jMenuMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuMateriasActionPerformed
+
+    }//GEN-LAST:event_jMenuMateriasActionPerformed
+
+    private void jMenuItmMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItmMateriasActionPerformed
+        // Limpiamos el escritorio
+        jDekPanEscritorio.removeAll();
+        jDekPanEscritorio.repaint();
+        
+        VistaMateria form = new VistaMateria();
+        
+        // agregamos la vista al escritorio
+        jDekPanEscritorio.add(form);
+        // centramos la vista dentro del escritoio
+        Dimension desktopSize = jDekPanEscritorio.getSize();
+        Dimension FrameSize = form.getSize();
+        form.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+        // Seteamos visible a la vista
+        form.setVisible(true);
+    }//GEN-LAST:event_jMenuItmMateriasActionPerformed
+
+    private void jMenuItmAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItmAlumnosActionPerformed
+        // Limpiamos el escritorio
+        jDekPanEscritorio.removeAll();
+        jDekPanEscritorio.repaint();
+        
+        VistaAlumno form = new VistaAlumno();
+        
+        // agregamos la vista al escritorio
+        jDekPanEscritorio.add(form);
+        // centramos la vista dentro del escritoio
+        Dimension desktopSize = jDekPanEscritorio.getSize();
+        Dimension FrameSize = form.getSize();
+        form.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+        // Seteamos visible a la vista
+        form.setVisible(true);
+    }//GEN-LAST:event_jMenuItmAlumnosActionPerformed
+
+    private void jMenuItmManipulacionDeNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItmManipulacionDeNotasActionPerformed
+        // Limpiamos el escritorio
+        jDekPanEscritorio.removeAll();
+        jDekPanEscritorio.repaint();
+        
+        VistaManipulacionDeNotas form = new VistaManipulacionDeNotas();
+        
+        // agregamos la vista al escritorio
+        jDekPanEscritorio.add(form);
+        // centramos la vista dentro del escritoio
+        Dimension desktopSize = jDekPanEscritorio.getSize();
+        Dimension FrameSize = form.getSize();
+        form.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+        // Seteamos visible a la vista
+        form.setVisible(true);
+    }//GEN-LAST:event_jMenuItmManipulacionDeNotasActionPerformed
+
+    private void jMenuItmListDeAlumnoXMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItmListDeAlumnoXMateriaActionPerformed
+        // Limpiamos el escritorio
+        jDekPanEscritorio.removeAll();
+        jDekPanEscritorio.repaint();
+        
+        VistaListadoAlumnoxMateria form = new VistaListadoAlumnoxMateria();
+        
+        // agregamos la vista al escritorio
+        jDekPanEscritorio.add(form);
+        // centramos la vista dentro del escritoio
+        Dimension desktopSize = jDekPanEscritorio.getSize();
+        Dimension FrameSize = form.getSize();
+        form.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+        // Seteamos visible a la vista
+        form.setVisible(true);
+    }//GEN-LAST:event_jMenuItmListDeAlumnoXMateriaActionPerformed
 
     /**
      * @param args the command line arguments
