@@ -1,26 +1,142 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Vista;
 
+import Control.AlumnoData;
+import Control.ConectarBD;
+import Modelo.*;
+import Control.*;
+import java.awt.Dimension;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 
-/**
- *
- * @author AsRock
- */
+
 public class MenuUniversidad extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MenuUniversidad
-     */
+    //----ATRIBUTOS ------------------------------------------------------------
+    
+        ConectarBD conexion = new ConectarBD();
+        
+    //----CONSTRUCTOR-----------------------------------------------------------
+    
     public MenuUniversidad() {
         initComponents();
+        
+        borraTablasBD();                                                        //<---Borramos y precargamos unos alumnos y unas materias para poder probar
+        preCargaAlumnos();
+        preCargaMaterias();   
+        
         this.setLocationRelativeTo(null);                                       //<---Para que centre el formulario principal en la panatalla
+    
+        
+        
     }
 
+    //**************************** METODOS *************************************
+    
+    //--- METODO BORRAR TABLAS -------------------------------------------------
+    
+    private void borraTablasBD(){
+
+        String sentenciaSql;
+        PreparedStatement prepStatem;
+
+        try {
+
+            sentenciaSql = "DELETE FROM cursada ";
+            prepStatem = conexion.getConexion().prepareStatement(sentenciaSql);
+            prepStatem.executeUpdate();
+
+            sentenciaSql = "DELETE FROM alumno ";
+            prepStatem = conexion.getConexion().prepareStatement(sentenciaSql);
+            prepStatem.executeUpdate();        
+            
+            sentenciaSql = "DELETE FROM materia ";
+            prepStatem = conexion.getConexion().prepareStatement(sentenciaSql);
+            prepStatem.executeUpdate();
+            JOptionPane.showMessageDialog(null,"Se boorarron las tablas de la BD Univeridad!\n\n"
+                                             + "cursada, alumno y materia");
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null," Hubo un Problema al borrar las tablas de la BD!");
+        }     
+
+    
+    }
+    
+    
+    //--- METODO PRE CARGA ALUMNOS ---------------------------------------------
+    
+    private void preCargaAlumnos(){    
+        
+        //---CREAMOS ALUMNOS ---------------------------------------------------
+        
+        AlumnoData alumnoData = new AlumnoData(conexion);
+        
+        Alumno diaszCarlos = new Alumno("Diaz","Carlos",LocalDate.of(1975,2,25),1003,true); 
+        Alumno luceroEnrique = new Alumno("Lucero","Enrique",LocalDate.of(1985,1,5),1004,true); 
+        Alumno sosaLuis = new Alumno("Sosa","Luis",LocalDate.of(1995,3,10),1005,true); 
+        Alumno DonovanDaniel = new Alumno("Donovan","Daniel",LocalDate.of(1977,7,20),1006,true); 
+    
+        
+        //---GUARDAMOS ALUMNOS -------------------------------------------------
+       
+        alumnoData.guardarAlumno(diaszCarlos);
+        alumnoData.guardarAlumno(luceroEnrique);
+        alumnoData.guardarAlumno(sosaLuis);
+        
+        if (alumnoData.guardarAlumno(DonovanDaniel)){
+        
+            JOptionPane.showMessageDialog(null," El Alumno fue guardado Satisfactorioamente!");
+
+        }
+        
+    }
+    
+    
+    //--- METODO PRE CARGA MATERIAS --------------------------------------------
+    
+    private void preCargaMaterias(){ 
+        
+        
+        //---CREAMOS MATERIAS --------------------------------------------------
+        
+        MateriaData materiaData = new MateriaData(conexion);
+        
+        Materia laboratorio1 = new Materia("Laboratorio",1,true);
+        Materia laboratorio2 = new Materia("Laboratorio",2,true);
+        Materia estructura = new Materia("Estrucutra de Datos",1,true);
+        Materia matematicas1 = new Materia("Matematicas I",1,true);
+        Materia web1 = new Materia("Web I",1,true);
+       
+        //---GUARDAMOS MATERIAS ------------------------------------------------
+                
+        materiaData.guardarMateria(laboratorio1);
+        materiaData.guardarMateria(laboratorio2);
+        materiaData.guardarMateria(estructura);
+        materiaData.guardarMateria(matematicas1);
+
+
+        if (materiaData.guardarMateria(web1)){
+
+            JOptionPane.showMessageDialog(null," La materia fue guardada Satisfactorioamente!");
+
+        }
+            
+        
+    }
+    
+    //--------------------------------------------------------------------
+    //--------------------------------------------------------------------
+    //--------------------------------------------------------------------
+    //--------------------------------------------------------------------
+        
+        
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,11 +167,11 @@ public class MenuUniversidad extends javax.swing.JFrame {
         jDekPanEscritorio.setLayout(jDekPanEscritorioLayout);
         jDekPanEscritorioLayout.setHorizontalGroup(
             jDekPanEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 658, Short.MAX_VALUE)
+            .addGap(0, 858, Short.MAX_VALUE)
         );
         jDekPanEscritorioLayout.setVerticalGroup(
             jDekPanEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 490, Short.MAX_VALUE)
+            .addGap(0, 508, Short.MAX_VALUE)
         );
 
         jMenuArchivo.setText("Archivo");
@@ -87,6 +203,11 @@ public class MenuUniversidad extends javax.swing.JFrame {
         jMenuInscripciones.setText("Inscripciones");
 
         jMenuItmManejoDeIncripciones.setText("Manejo de Inscripciones");
+        jMenuItmManejoDeIncripciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItmManejoDeIncripcionesActionPerformed(evt);
+            }
+        });
         jMenuInscripciones.add(jMenuItmManejoDeIncripciones);
 
         jMenuBar.add(jMenuInscripciones);
@@ -124,6 +245,23 @@ public class MenuUniversidad extends javax.swing.JFrame {
     private void jMenuItmSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItmSalirActionPerformed
         this.dispose();
     }//GEN-LAST:event_jMenuItmSalirActionPerformed
+
+    private void jMenuItmManejoDeIncripcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItmManejoDeIncripcionesActionPerformed
+        // Limpiamos el escritorio
+        jDekPanEscritorio.removeAll();
+        jDekPanEscritorio.repaint();
+        
+        VistaFormularioDeInscripcion formDeInscrip = new VistaFormularioDeInscripcion();
+        
+        // agregamos la vista al escritorio
+        jDekPanEscritorio.add(formDeInscrip);
+        // centramos la vista dentro del escritoio
+        Dimension desktopSize = jDekPanEscritorio.getSize();
+        Dimension FrameSize = formDeInscrip.getSize();
+        formDeInscrip.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
+        // Seteamos visible a la vista
+        formDeInscrip.setVisible(true);
+    }//GEN-LAST:event_jMenuItmManejoDeIncripcionesActionPerformed
 
     /**
      * @param args the command line arguments
