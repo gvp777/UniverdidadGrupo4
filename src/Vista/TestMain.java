@@ -20,7 +20,7 @@
         reuniones fijadas en el Zoom. 
 
         Tubimos un problema de pisada de clase en github entonces, por esta etapa, decidimos
-        trabajarlo d eesta manera pero conocemos el github desde netbeans perfectamente.
+        trabajarlo de esta manera pero conocemos el github desde netbeans perfectamente.
 
         Es por esto que esta subida por uno de los integrantes y no comititiada por 
         los colaboradores. Haciamos cada cual su clase y la pasabamos por mail o chat
