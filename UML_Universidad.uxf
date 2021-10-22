@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>5</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>530</x>
+      <y>115</y>
+      <w>175</w>
+      <h>175</h>
+    </coordinates>
+    <panel_attributes>Materia
+--
+-id:int
+-nombre:String
+-anio:int
+-activo:boolean
+--
++Materia()
++Materia(nombre:String,anio:int,activo:boolean)
++Materia(id:int,nombre:String,anio:int,activo:boolean)
+
++getId():int
++setId(id:int):void
++getNombre():String
++setNombre(nombre:String):void
++getAnio():int
++setAnio(anio:int):void
++isActivo():boolean
++setActivo(activo:boolean):void
++toString():String
++hasCode():int
++equals(obj:Object):boolean
+
+
+
+
+
+
+
+
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>215</x>
+      <y>115</y>
+      <w>290</w>
+      <h>225</h>
+    </coordinates>
+    <panel_attributes>Alumno
+--
+-id:int
+-nombre:String
+-apellido:String
+-fechaNac:LocalDate
+-legajo:int
+-activo:boolean
+--
++Alumno()
++Alumno(apellido:String,nombre:String,fechaNac:LocalDate,legajo:int,activo:boolean)
++Alumno(id:int,apellido:String,nombre:String,fechaNac:LocalDate,legajo:int,activo:boolean)
+
++getId():int
++setId(id:int):void
++getNombre():String
++setNombre(nombre:String):void
++getApellido():String
++setApellido(apellido:String):void
++getFechaNac():LocalDate
++setFechaNac(fechaNac:LocalDate):void
++getLegajo():int
++setLegajo(legajo:int):void
++isActivo():boolean
++setActivo(activo:boolean):void
++toString():String
++hasCode():int
++equals(obj:Object):boolean
+
+
+
+
+
+
+
+
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>220</x>
+      <y>355</y>
+      <w>235</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>Cursada
+--
+-id:int
+-materia:Materia
+-alumno:Alumno
+-nota:float
+-activo:boolean
+--
++Cursada()
++Cursada(materia:Materia,alumno:Alumno,nota:float,activo:boolean)
++Cursada(idint,materia:Materia,alumno:Alumno,nota:float,activo:boolean)
+
++getId():int
++setId(id:int):void
++getMateria():Materia
++setMateria(materia:Materia):void
++getAlumno():Alumno
++setAlumno(alumno:Alumno):void
++getNota():float
++setNota(nota:float):void
++isActivo():boolean
++setActivo(activo:boolean):void
++toString():String
++hasCode():int
++equals(obj:Object):boolean
+
+
+
+
+
+
+
+
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>735</x>
+      <y>120</y>
+      <w>170</w>
+      <h>115</h>
+    </coordinates>
+    <panel_attributes>MateriaData
+--
+
+-conexion:Conection
+
+--
+
++MateriaData(conexionParam:ConectarBD)
+
++guardarMateria(materiaParam:Materia):boolean
++buscarMateria(idParam:int):Materia
++listarMateria():List&lt;Materia&gt; 
++actualizarMateria(materiaParam:Materia):boolean
++borrarMateria(idParam:int):boolean 
+
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>735</x>
+      <y>260</y>
+      <w>170</w>
+      <h>115</h>
+    </coordinates>
+    <panel_attributes>AlumnoData
+--
+
+-conexion:Conection
+
+--
+
++AlumnoaData(conexionParam:ConectarBD)
+
++guardarAlumno(alumnoParam:Alumno):boolean
++buscarAlumno(idParam:int):Alumno
++listarAlumnos():List&lt;Alumno&gt; 
++actualizarAlumno(alumnoParam:Alumno):boolean
++borrarAlumno(idParam:int):boolean 
+
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>700</x>
+      <y>390</y>
+      <w>205</w>
+      <h>145</h>
+    </coordinates>
+    <panel_attributes>CursadaData
+--
+
+-conexion:Conection
+-alumData:AlumnoData
+-mateData:MateriaData
+
+--
+
++CursadaData(conexionParam:ConectarBD)
+
++guardarIncripcion(cursada:Cursada):boolean 
++borrarIncripcion(idAlumno:int,idMateria:int):boolean
++obtenerIncripcion():ArrayList&lt;Cursada&gt; 
++obtenerMateriasIncriptas(idAlumno:int):ArrayList&lt;Materia&gt;
++obtenerMateriasNoIncriptas(idAlumno:int):ArrayList&lt;Materia&gt; 
++listarAlumnos(idMateria:int):ArrayList&lt;Alumno&gt;
++actualizarNota(idAlumno:int, idMateria:int, nota:float):boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>535</x>
+      <y>450</y>
+      <w>115</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>ConectarBD
+--
+
+-direccion:String
+-conexion:Connection 
+--
+
++getConexion():Connection
++getConexionActiva():Connection</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>540</x>
+      <y>370</y>
+      <w>140</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>TestMain
+--
+
+-conexion:ConectarBD
+
+--
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>715</x>
+      <y>330</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>40.0;10.0;10.0;10.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>700</x>
+      <y>190</y>
+      <w>45</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>70.0;10.0;50.0;10.0;50.0;270.0;10.0;270.0;10.0;400.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>450</x>
+      <y>285</y>
+      <w>115</w>
+      <h>245</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>210.0;10.0;210.0;150.0;80.0;150.0;80.0;470.0;10.0;470.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>450</x>
+      <y>335</y>
+      <w>30</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>40.0;10.0;40.0;280.0;10.0;280.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>675</x>
+      <y>410</y>
+      <w>35</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+</panel_attributes>
+    <additional_attributes>10.0;20.0;50.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>650</x>
+      <y>355</y>
+      <w>95</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+</panel_attributes>
+    <additional_attributes>10.0;30.0;10.0;10.0;170.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>450</x>
+      <y>415</y>
+      <w>100</w>
+      <h>135</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+</panel_attributes>
+    <additional_attributes>180.0;10.0;110.0;10.0;110.0;250.0;10.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>500</x>
+      <y>330</y>
+      <w>125</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+</panel_attributes>
+    <additional_attributes>230.0;80.0;230.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>625</x>
+      <y>285</y>
+      <w>15</w>
+      <h>95</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+</panel_attributes>
+    <additional_attributes>10.0;170.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>640</x>
+      <y>155</y>
+      <w>105</w>
+      <h>225</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+</panel_attributes>
+    <additional_attributes>10.0;430.0;10.0;290.0;150.0;290.0;150.0;10.0;190.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>600</x>
+      <y>425</y>
+      <w>15</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>645</x>
+      <y>140</y>
+      <w>100</w>
+      <h>340</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>180.0;10.0;130.0;10.0;130.0;350.0;80.0;350.0;80.0;660.0;10.0;660.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>610</x>
+      <y>460</y>
+      <w>320</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>590.0;10.0;620.0;10.0;620.0;180.0;10.0;180.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>585</x>
+      <y>335</y>
+      <w>355</w>
+      <h>235</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>640.0;10.0;690.0;10.0;690.0;450.0;10.0;450.0;10.0;370.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>565</x>
+      <y>210</y>
+      <w>385</w>
+      <h>370</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>680.0;10.0;750.0;10.0;750.0;720.0;10.0;720.0;10.0;620.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>675</x>
+      <y>95</y>
+      <w>105</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>190.0;50.0;190.0;10.0;10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>355</x>
+      <y>410</y>
+      <w>615</w>
+      <h>175</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>1100.0;10.0;1210.0;10.0;1210.0;330.0;10.0;330.0;10.0;290.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>355</x>
+      <y>90</y>
+      <w>605</w>
+      <h>205</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>1100.0;390.0;1190.0;390.0;1190.0;10.0;10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+</diagram>
