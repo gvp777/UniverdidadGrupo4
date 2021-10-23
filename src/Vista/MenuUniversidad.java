@@ -27,8 +27,8 @@ public class MenuUniversidad extends javax.swing.JFrame {
         initComponents();
         
         borraTablasBD();                                                        //<---Borramos y precargamos unos alumnos y unas materias para poder probar
-        preCargaAlumnos();
-        preCargaMaterias();   
+        preCargaBD();
+        
         
         this.setLocationRelativeTo(null);                                       //<---Para que centre el formulario principal en la panatalla
     
@@ -39,6 +39,8 @@ public class MenuUniversidad extends javax.swing.JFrame {
     //**************************** METODOS *************************************
     
     //--- METODO BORRAR TABLAS -------------------------------------------------
+    
+    
     
     private void borraTablasBD(){
 
@@ -69,9 +71,9 @@ public class MenuUniversidad extends javax.swing.JFrame {
     }
     
     
-    //--- METODO PRE CARGA ALUMNOS ---------------------------------------------
+    //--- METODO PRE CARGA BD ---------------------------------------------
     
-    private void preCargaAlumnos(){    
+    private void preCargaBD(){    
         
         //---CREAMOS ALUMNOS ---------------------------------------------------
         
@@ -91,16 +93,16 @@ public class MenuUniversidad extends javax.swing.JFrame {
         
         if (alumnoData.guardarAlumno(DonovanDaniel)){
         
-            JOptionPane.showMessageDialog(null," El Alumno fue guardado Satisfactorioamente!");
+            JOptionPane.showMessageDialog(null," Los Alumnos fueron guardados Satisfactorioamente!");
 
         }
         
-    }
     
     
-    //--- METODO PRE CARGA MATERIAS --------------------------------------------
     
-    private void preCargaMaterias(){ 
+        //--- PRE CARGA MATERIAS --------------------------------------------
+    
+    
         
         
         //---CREAMOS MATERIAS --------------------------------------------------
@@ -123,14 +125,44 @@ public class MenuUniversidad extends javax.swing.JFrame {
 
         if (materiaData.guardarMateria(web1)){
 
-            JOptionPane.showMessageDialog(null," La materia fue guardada Satisfactorioamente!");
+            JOptionPane.showMessageDialog(null," Las materias fueron guardada Satisfactorioamente!");
 
         }
+        
+        
+        //--- PRE CARGA INSCRIPCIONES --------------------------------------------
+        
+        
+        CursadaData cursadaData = new CursadaData(conexion);
+        
+        Cursada cursada1  = new Cursada(laboratorio2,DonovanDaniel,9,true);
+        Cursada cursada2  = new Cursada(laboratorio2,diaszCarlos,7,true);
+        Cursada cursada3  = new Cursada(estructura,luceroEnrique,8,true);
+        Cursada cursada4  = new Cursada(matematicas1,sosaLuis,9,true);
+        Cursada cursada5  = new Cursada(laboratorio1,diaszCarlos,9,true);
+   
+        //**********************************************************************
+        
+        //--- GUARDAR INCRIPCION -----------------------------------------------
+            cursadaData.guardarIncripcion(cursada1);
+            cursadaData.guardarIncripcion(cursada2);
+            cursadaData.guardarIncripcion(cursada3);
+            cursadaData.guardarIncripcion(cursada4);
+         
+  
+           
             
+            if (cursadaData.guardarIncripcion(cursada5)){
+            
+                JOptionPane.showMessageDialog(null," Las Inscripciones fueron guardada Satisfactorioamente!");
+            
+            }
         
     }
     
-    //--------------------------------------------------------------------
+ 
+ 
+
     //--------------------------------------------------------------------
     //--------------------------------------------------------------------
     //--------------------------------------------------------------------

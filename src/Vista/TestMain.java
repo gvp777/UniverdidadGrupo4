@@ -273,7 +273,7 @@ public class TestMain {
         
         //--- OBTENER MATERIAS NO INSCRIPTAS -----------------------------------
                 
-           ArrayList<Materia> mn = cursadaData.obtenerMateriasIncriptas(sosaLuis.getId());
+           ArrayList<Materia> mn = cursadaData.obtenerMateriasNoIncriptas(sosaLuis.getId());
                     
           for (Materia it :mn){
           

@@ -5,23 +5,155 @@
  */
 package Vista;
 
+import Control.AlumnoData;
+import Control.ConectarBD;
+import Control.CursadaData;
+import Control.MateriaData;
 import Modelo.Alumno;
+import Modelo.Cursada;
+import Modelo.Materia;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
  * @author AsRock
  */
 public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
-
-    /**
-     * Creates new form jIntFrFormularioDeInscripcion
-     */
+   
+    //---ATRIBUTOS--------------------------------------------------------------
+    
+    private DefaultTableModel modelo;
+    private CursadaData cursadaData;
+    private Alumno alumnoSeleccionado;
+    private Materia materiaElegida;
+    ConectarBD conexion = new ConectarBD();
+    
+    
+    
+    //---CONSTRUCTOR------------------------------------------------------------
     public VistaFormularioDeInscripcion() {
         initComponents();
+        
+        modelo = new DefaultTableModel(){                                       
+            @Override
+            public boolean isCellEditable (int filas, int columnas){            //<---Metodo sobreescrito para que la talbla no sea editable
+            
+                    if(columnas == 4){
+                        return true;
+                    }else{
+                        return false;
+                    }
+            }
+        };
+        
+        llenarCombo();
+        colocarTitulosTabla();
+     
+        
+        jbtInscribir.setEnabled(false);
+        jbtAnularInscripcion.setEnabled(false);
+        jcbxAlumnos.setSelectedIndex(-1);
     }
 
+    //**************************** METODOS *************************************
+    //--------------------------------------------------------------------------
 
     
+    
+    private void borrarFilas(){
+    
+        //---CADA FILA EN LA EN EL MODELO, ES  UN AREGLO DE OBJETOS---
+        
+        int fila = (modelo.getRowCount() -1 ); //---tengo la pocision d ela ultima fila  
+        
+        // borramnos de atras para adelante 
+        
+        for (int i =  fila ; i >= 0 ; i-- ){
+            
+            modelo.removeRow(i);
+        }
+        
+        
+    }
+    
+    //--------------------------------------------------------------------------
+    
+    public void colocarTitulosTabla(){    
+        
+        ArrayList <Object> columnasTabla = new ArrayList<>();
+        
+        columnasTabla.add("Legajo");
+        columnasTabla.add("Nombre");
+        columnasTabla.add("Año");
+      
+        
+        for(Object columnaIt: columnasTabla){
+            
+            modelo.addColumn(columnaIt);
+        }
+        
+        jtableMaterias.setModel(modelo);
+        
+        
+        
+        
+        
+    }
+    
+    //-------------------------------------------------------------------------- 
+    private void cargarTablaConMateriasInscriptas(){
+    
+        borrarFilas();
+        
+        alumnoSeleccionado = (Alumno) jcbxAlumnos.getSelectedItem();     //<---Alumno seleccionado ene l combobox    
+        
+        cursadaData = new CursadaData(conexion);
+                                    
+        ArrayList<Materia> listaMateriaInscriptas = cursadaData.obtenerMateriasIncriptas(alumnoSeleccionado.getId());
+    
+        for( Materia listMatInsIt : listaMateriaInscriptas){
+        
+             modelo.addRow(new Object[]{listMatInsIt.getId(), listMatInsIt.getNombre(),listMatInsIt.getAnio()});
+        
+        }
+        
+        
+    }
+    
+    //-------------------------------------------------------------------------- 
+    private void cargarTablaConMateriasNoInscriptas(){
+    
+        borrarFilas();
+        
+        alumnoSeleccionado = (Alumno) jcbxAlumnos.getSelectedItem();     //<---Alumno seleccionado en el combobox    
+        
+        cursadaData = new CursadaData(conexion);
+                                    
+        ArrayList<Materia> listaMateriaNoInscriptas = cursadaData.obtenerMateriasNoIncriptas(alumnoSeleccionado.getId());
+    
+        for( Materia listMatInsIt : listaMateriaNoInscriptas){
+        
+             modelo.addRow(new Object[]{listMatInsIt.getId(), listMatInsIt.getNombre(),listMatInsIt.getAnio()});
+        
+        }
+        
+        
+    }
+    //--------------------------------------------------------------------------    
+    private void llenarCombo(){
+
+        AlumnoData alumnoData = new AlumnoData(conexion);
+        ArrayList <Alumno> alumnos = (ArrayList) alumnoData.listarAlumnos();
+        
+        for(Alumno aluIt: alumnos){
+        
+            jcbxAlumnos.addItem(aluIt);
+        }
+  
+    }    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -46,12 +178,23 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
 
         setClosable(true);
 
+        jcbxAlumnos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbxAlumnosActionPerformed(evt);
+            }
+        });
+
         jlbAlumno.setText("Alumno");
 
         jlbFormularioDeInscripcion.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jlbFormularioDeInscripcion.setText("FORMULARIO DE INSCRIPCION");
 
         jbtInscribir.setText("Inscribir");
+        jbtInscribir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtInscribirActionPerformed(evt);
+            }
+        });
 
         jbtAnularInscripcion.setText("Anular Inscripcion");
 
@@ -73,13 +216,28 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jtableMaterias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtableMateriasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtableMaterias);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jradiobtNoInscriptas.setText("No Inscriptas");
+        jradiobtNoInscriptas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jradiobtNoInscriptasActionPerformed(evt);
+            }
+        });
 
         jradiobtInscriptas.setText("Inscriptas");
+        jradiobtInscriptas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jradiobtInscriptasActionPerformed(evt);
+            }
+        });
 
         jlbListadoDeMaterias.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jlbListadoDeMaterias.setText("LISTADO DE MATERIAS");
@@ -167,6 +325,81 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
     private void jbtSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtSalirActionPerformed
         this.dispose();
     }//GEN-LAST:event_jbtSalirActionPerformed
+
+    private void jradiobtInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jradiobtInscriptasActionPerformed
+        jbtInscribir.setEnabled(false);
+        jbtAnularInscripcion.setEnabled(true);
+        jradiobtNoInscriptas.setSelected(false);
+        
+        
+        borrarFilas();
+       
+        if (jcbxAlumnos.getSelectedIndex() != -1){                              //<---Si hay un alumno sleeccionado
+            cargarTablaConMateriasInscriptas();
+        }else{
+            JOptionPane.showMessageDialog(null," Debe seleccioanr un alumno");
+            jcbxAlumnos.requestFocus();
+        }
+        
+    }//GEN-LAST:event_jradiobtInscriptasActionPerformed
+
+    private void jradiobtNoInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jradiobtNoInscriptasActionPerformed
+        jbtInscribir.setEnabled(true);
+        jbtAnularInscripcion.setEnabled(false);
+        jradiobtInscriptas.setSelected(false);
+        borrarFilas();
+        
+        
+        
+        if (jcbxAlumnos.getSelectedIndex() != -1){                              //<---Si hay un alumno sleeccionado
+            cargarTablaConMateriasNoInscriptas();
+        }else{
+            JOptionPane.showMessageDialog(null," Debe seleccioanr un alumno");
+            jcbxAlumnos.requestFocus();
+        }
+        
+    }//GEN-LAST:event_jradiobtNoInscriptasActionPerformed
+
+    private void jcbxAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbxAlumnosActionPerformed
+        jradiobtInscriptas.setSelected(false);
+        jradiobtNoInscriptas.setSelected(false);
+        borrarFilas();
+    }//GEN-LAST:event_jcbxAlumnosActionPerformed
+
+    private void jtableMateriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtableMateriasMouseClicked
+                                                                                //---En este Evento, selecciona una fila de la tabla 
+            
+            MateriaData materiaData = new MateriaData(conexion);
+            
+            // activar boton actualizar
+            // activar boton borrar
+            
+            int filaSeleccionada = jtableMaterias.getSelectedRow();             //<---devuelve la fila seleccioanda
+            
+            if ( filaSeleccionada!= -1){                                        //<---Si la fila seleccionada, tiene un elemento seleccionado 
+ 
+                int idMateriaSeleccionada = (Integer)jtableMaterias.getValueAt(filaSeleccionada, 0); //<---Lo que trae cada fila es de tipo Object. Hay que ir casteando (El primero elemento esta en la posicion 0, el segundo en el 1 y asi... como un arreglo)
+                                                          
+                materiaElegida = materiaData.buscarMateria(idMateriaSeleccionada); //<--- Con ese id, bucamos la materia y lo almacenamos en el atributo materiaElegida
+            }
+    }//GEN-LAST:event_jtableMateriasMouseClicked
+
+    private void jbtInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtInscribirActionPerformed
+  
+        Cursada cursada  = new Cursada(materiaElegida,alumnoSeleccionado,-1,true); //<--- -1 significa que todavia no tiene nota
+         
+        cursadaData = new CursadaData(conexion);
+        
+        if (cursadaData.guardarIncripcion(cursada)){
+            JOptionPane.showMessageDialog(null," La Cuarsada fue guardada Satisfactorioamente!");
+        }else{
+            JOptionPane.showMessageDialog(null," No se pudo guardar la inscripcion!");
+        }
+         
+        jcbxAlumnos.setSelectedIndex(-1);                                       //<---el combo que sin seleccion
+        borrarFilas();                                                          //<---La tabla se limpia
+        jcbxAlumnos.requestFocus();                                             //<---El foco queda en el combo 
+    }//GEN-LAST:event_jbtInscribirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

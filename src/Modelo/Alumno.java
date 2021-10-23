@@ -94,12 +94,18 @@ public class Alumno {
     //---TOSTRING-HASHCODE-EQUALS-----------------------------------------------
     @Override
     public String toString() {
-        return "\n\tAlumno{" + "id=" + id 
+        
+        return legajo + ", " + nombre + ", " + apellido;
+        
+    // return generado automaticamente     
+    /*    return "\n\tAlumno{" + "id=" + id 
                 + ", nombre=" + nombre 
                 + ", apellido=" + apellido 
                 + ", fechaNac=" + fechaNac 
                 + ", legajo=" + legajo 
                 + ", activo=" + activo + '}';
+   */
+    
     }
 
     @Override

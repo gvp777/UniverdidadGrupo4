@@ -68,10 +68,15 @@ public class Materia {
     //---TOSTRING-HASHCODE-EQUALS-----------------------------------------------
     @Override
     public String toString() {
+        
+       return id + ", " + nombre + ", " + anio;
+                
+       /* 
         return "\n\tMateria{" + "id=" + id + 
                 ", nombre=" + nombre + 
                 ", anio=" + anio + 
                 ", activo=" + activo + '}';
+        */        
     }
 
     @Override

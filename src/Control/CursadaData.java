@@ -155,7 +155,7 @@ public class CursadaData {
         String sentenciaSql = "SELECT * "              
                             + "FROM materia "
                             + "WHERE idMateria NOT IN "
-                            + "(SELECT materia.idMateria, materia.nombreMateria, materia.anio, materia.activo "
+                            + "(SELECT materia.idMateria "
                             + "FROM materia, cursada "
                             + "WHERE materia.idMateria = cursada.idMateria "
                             + "AND cursada.activo = true "
