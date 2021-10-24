@@ -6,6 +6,8 @@ import Control.ConectarBD;
 import Modelo.*;
 import Control.*;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -32,7 +34,7 @@ public class MenuUniversidad extends javax.swing.JFrame {
         
         this.setLocationRelativeTo(null);                                       //<---Para que centre el formulario principal en la panatalla
     
-        
+        setIconImage( new ImageIcon(getClass().getResource("/imagenes/icono 5.png")).getImage()); 
         
     }
 
@@ -178,7 +180,13 @@ public class MenuUniversidad extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDekPanEscritorio = new javax.swing.JDesktopPane();
+        ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/fondo1.png"));
+        Image miImagen = icono.getImage();
+        jDekPanEscritorio = new javax.swing.JDesktopPane(){
+            public void paintComponent(Graphics g){
+                g.drawImage(miImagen, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
         jMenuBar = new javax.swing.JMenuBar();
         jMenuArchivo = new javax.swing.JMenu();
         jMenuItmSalir = new javax.swing.JMenuItem();

@@ -5,17 +5,27 @@
  */
 package Vista;
 
+import Control.AlumnoData;
+import Control.ConectarBD;
+import Modelo.Alumno;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author AsRock
  */
 public class VistaAlumno extends javax.swing.JInternalFrame {
-
+    ConectarBD conexion = new ConectarBD();
+    private AlumnoData alumnodata;
+    private Alumno alumno;
     /**
      * Creates new form VistaAlumno
      */
     public VistaAlumno() {
         initComponents();
+        alumnodata= new AlumnoData(conexion);
+        alumno = new Alumno();
+        
     }
 
     /**
@@ -27,23 +37,191 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel3 = new javax.swing.JLabel();
+        jbActualizar = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jcbActivo = new javax.swing.JCheckBox();
+        jLabel5 = new javax.swing.JLabel();
+        jtLegajo = new javax.swing.JTextField();
+        jtApeliido = new javax.swing.JTextField();
+        jtNombre = new javax.swing.JTextField();
+        jbGuardar = new javax.swing.JButton();
+        jbBorrar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jbBuscar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jbLimpiar = new javax.swing.JButton();
+        jDCFechaNac = new com.toedter.calendar.JDateChooser();
+
         setClosable(true);
+
+        jLabel3.setText("Apellido");
+
+        jbActualizar.setText("Actualizar");
+
+        jLabel4.setText("Nombre");
+
+        jcbActivo.setText("Estado");
+        jcbActivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbActivoActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Fecha de Nac");
+
+        jtLegajo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtLegajoActionPerformed(evt);
+            }
+        });
+
+        jbGuardar.setText("Guardar");
+        jbGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGuardarActionPerformed(evt);
+            }
+        });
+
+        jbBorrar.setText("Borrar");
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setText("-Formulario de alumno-");
+
+        jbBuscar.setText("Buscar");
+        jbBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscarActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Legajo");
+
+        jbLimpiar.setText("Limpiar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 528, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(91, 91, 91)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(jbGuardar)
+                        .addGap(26, 26, 26)
+                        .addComponent(jbBorrar)
+                        .addGap(31, 31, 31)
+                        .addComponent(jbActualizar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbLimpiar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jcbActivo)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jtApeliido)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jtLegajo, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                                    .addComponent(jbBuscar)
+                                    .addGap(16, 16, 16))
+                                .addComponent(jtNombre)
+                                .addComponent(jDCFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 448, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jtLegajo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbBuscar))
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jtApeliido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(jDCFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jcbActivo)
+                .addGap(55, 55, 55)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbBorrar)
+                    .addComponent(jbGuardar)
+                    .addComponent(jbActualizar)
+                    .addComponent(jbLimpiar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jcbActivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbActivoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbActivoActionPerformed
+
+    private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbGuardarActionPerformed
+
+    private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
+        // TODO add your handling code here:
+        int legajo= Integer.parseInt(jtLegajo.getText());
+        alumno= alumnodata.buscarAlumno(legajo);
+        if(alumno!=null){
+        jtApeliido.setText(alumno.getApellido());
+        jtNombre.setText(alumno.getNombre());
+        //jDCFechaNac.setDate((Date)alumno.getFechaNac());
+        jbGuardar.setEnabled(false);
+        }else{
+            JOptionPane.showMessageDialog(this,"El legajo que ingreso no esta registrado" );
+        }
+    }//GEN-LAST:event_jbBuscarActionPerformed
+
+    private void jtLegajoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtLegajoActionPerformed
+        // TODO add your handling code here:
+        try{
+            int validacion=Integer.parseInt(jtLegajo.getText());
+        }catch(NumberFormatException jt){
+            JOptionPane.showMessageDialog(this,"Año de materia mal ingresado, cheque que sean solo numeros" );
+            jtLegajo.requestFocus();
+        }
+    }//GEN-LAST:event_jtLegajoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser jDCFechaNac;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JButton jbActualizar;
+    private javax.swing.JButton jbBorrar;
+    private javax.swing.JButton jbBuscar;
+    private javax.swing.JButton jbGuardar;
+    private javax.swing.JButton jbLimpiar;
+    private javax.swing.JCheckBox jcbActivo;
+    private javax.swing.JTextField jtApeliido;
+    private javax.swing.JTextField jtLegajo;
+    private javax.swing.JTextField jtNombre;
     // End of variables declaration//GEN-END:variables
 }
