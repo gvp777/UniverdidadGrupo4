@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Vista;
 
 import Control.AlumnoData;
@@ -17,18 +13,17 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 
-/**
- *
- * @author AsRock
- */
+
 public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
    
     //---ATRIBUTOS--------------------------------------------------------------
     
     private DefaultTableModel modelo;
+    
     private CursadaData cursadaData;
     private Alumno alumnoSeleccionado;
     private Materia materiaElegida;
+    
     ConectarBD conexion = new ConectarBD();
     
     
@@ -55,6 +50,7 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
         
         jbtInscribir.setEnabled(false);
         jbtAnularInscripcion.setEnabled(false);
+       
         jcbxAlumnos.setSelectedIndex(-1);
     }
 
@@ -85,7 +81,7 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
         
         ArrayList <Object> columnasTabla = new ArrayList<>();
         
-        columnasTabla.add("Legajo");
+        columnasTabla.add("ID");
         columnasTabla.add("Nombre");
         columnasTabla.add("Año");
       
@@ -146,6 +142,7 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
     private void llenarCombo(){
 
         AlumnoData alumnoData = new AlumnoData(conexion);
+        
         ArrayList <Alumno> alumnos = (ArrayList) alumnoData.listarAlumnos();
         
         for(Alumno aluIt: alumnos){
@@ -197,6 +194,11 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
         });
 
         jbtAnularInscripcion.setText("Anular Inscripcion");
+        jbtAnularInscripcion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtAnularInscripcionActionPerformed(evt);
+            }
+        });
 
         jbtSalir.setText("Salir");
         jbtSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -370,9 +372,7 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
                                                                                 //---En este Evento, selecciona una fila de la tabla 
             
             MateriaData materiaData = new MateriaData(conexion);
-            
-            // activar boton actualizar
-            // activar boton borrar
+        
             
             int filaSeleccionada = jtableMaterias.getSelectedRow();             //<---devuelve la fila seleccioanda
             
@@ -390,8 +390,10 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
          
         cursadaData = new CursadaData(conexion);
         
-        if (cursadaData.guardarIncripcion(cursada)){
-            JOptionPane.showMessageDialog(null," La Cuarsada fue guardada Satisfactorioamente!");
+        if(jtableMaterias.getSelectedRow() == -1){                              //<---Si no hay un alumno sleeccionado
+            JOptionPane.showMessageDialog(null," Debe seleccioanr una materia de la tabla!");
+        }else if (cursadaData.guardarIncripcion(cursada)){                      //<---Si estan todos los datos, actualiza el estado
+            JOptionPane.showMessageDialog(null," La Cursada fue guardada Satisfactorioamente!");
         }else{
             JOptionPane.showMessageDialog(null," No se pudo guardar la inscripcion!");
         }
@@ -400,6 +402,25 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
         borrarFilas();                                                          //<---La tabla se limpia
         jcbxAlumnos.requestFocus();                                             //<---El foco queda en el combo 
     }//GEN-LAST:event_jbtInscribirActionPerformed
+
+    private void jbtAnularInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtAnularInscripcionActionPerformed
+ 
+        Cursada cursada  = new Cursada(materiaElegida,alumnoSeleccionado,-1,true); //<--- -1 significa que todavia no tiene nota
+         
+        cursadaData = new CursadaData(conexion);
+        
+        if(jtableMaterias.getSelectedRow() == -1){                              //<---Si no hay un alumno sleeccionado
+            JOptionPane.showMessageDialog(null," Debe seleccioanr una materia de la tabla!");
+        }else if (cursadaData.borrarIncripcion(alumnoSeleccionado.getId(), materiaElegida.getId())){ //<---Si estan todos los datos, actualiza el estado
+            JOptionPane.showMessageDialog(null," La Cursada fue Anulada Satisfactorioamente!");
+        }else{
+            JOptionPane.showMessageDialog(null," No se pudo Anular la inscripcion!");
+        }
+         
+        jcbxAlumnos.setSelectedIndex(-1);                                       //<---el combo que sin seleccion
+        borrarFilas();                                                          //<---La tabla se limpia
+        jcbxAlumnos.requestFocus();                                             //<---El foco queda en el combo 
+    }//GEN-LAST:event_jbtAnularInscripcionActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

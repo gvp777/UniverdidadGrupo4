@@ -131,18 +131,18 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jlCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jtId" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                       <Component id="jbBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jtId" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jlNombre" min="-2" max="-2" attributes="0"/>
-                      <Component id="jtNombre" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="jtNombre" min="-2" pref="29" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jlAnio" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jtAnio" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
+                      <Component id="jtAnio" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jcActivo" min="-2" max="-2" attributes="0"/>

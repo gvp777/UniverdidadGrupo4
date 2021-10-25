@@ -62,8 +62,7 @@ public class MenuUniversidad extends javax.swing.JFrame {
             sentenciaSql = "DELETE FROM materia ";
             prepStatem = conexion.getConexion().prepareStatement(sentenciaSql);
             prepStatem.executeUpdate();
-            JOptionPane.showMessageDialog(null,"Se boorarron las tablas de la BD Univeridad!\n\n"
-                                             + "cursada, alumno y materia");
+            
             
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null," Hubo un Problema al borrar las tablas de la BD!");
@@ -93,9 +92,9 @@ public class MenuUniversidad extends javax.swing.JFrame {
         alumnoData.guardarAlumno(luceroEnrique);
         alumnoData.guardarAlumno(sosaLuis);
         
-        if (alumnoData.guardarAlumno(DonovanDaniel)){
+        if (!alumnoData.guardarAlumno(DonovanDaniel) ){
         
-            JOptionPane.showMessageDialog(null," Los Alumnos fueron guardados Satisfactorioamente!");
+            JOptionPane.showMessageDialog(null," Los Alumnos No fueron guardados ");
 
         }
         
@@ -125,9 +124,9 @@ public class MenuUniversidad extends javax.swing.JFrame {
         materiaData.guardarMateria(matematicas1);
 
 
-        if (materiaData.guardarMateria(web1)){
+        if (!materiaData.guardarMateria(web1)){
 
-            JOptionPane.showMessageDialog(null," Las materias fueron guardada Satisfactorioamente!");
+            JOptionPane.showMessageDialog(null," Las materias No fueron guardada ");
 
         }
         
@@ -154,10 +153,12 @@ public class MenuUniversidad extends javax.swing.JFrame {
   
            
             
-            if (cursadaData.guardarIncripcion(cursada5)){
+            if (!cursadaData.guardarIncripcion(cursada5)){
             
-                JOptionPane.showMessageDialog(null," Las Inscripciones fueron guardada Satisfactorioamente!");
+                JOptionPane.showMessageDialog(null," Las Inscripciones No fueron guardada !");
             
+            }else{
+                JOptionPane.showMessageDialog(null,"La BD fue, Borrada y Pre-Cargada Con Exito!");
             }
         
     }
