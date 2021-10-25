@@ -51,7 +51,6 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
         jbBuscar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jbLimpiar = new javax.swing.JButton();
-        jDCFechaNac = new com.toedter.calendar.JDateChooser();
 
         setClosable(true);
 
@@ -134,8 +133,7 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                                     .addComponent(jbBuscar)
                                     .addGap(16, 16, 16))
-                                .addComponent(jtNombre)
-                                .addComponent(jDCFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jtNombre)))))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -157,10 +155,8 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
                     .addComponent(jLabel4)
                     .addComponent(jtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jDCFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addComponent(jLabel5)
+                .addGap(20, 20, 20)
                 .addComponent(jcbActivo)
                 .addGap(55, 55, 55)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -168,7 +164,7 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
                     .addComponent(jbGuardar)
                     .addComponent(jbActualizar)
                     .addComponent(jbLimpiar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         pack();
@@ -208,7 +204,6 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser jDCFechaNac;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
