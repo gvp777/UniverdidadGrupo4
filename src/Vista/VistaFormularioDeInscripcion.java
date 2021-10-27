@@ -13,7 +13,6 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 
-
 public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
    
     //---ATRIBUTOS--------------------------------------------------------------
@@ -25,8 +24,6 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
     private Materia materiaElegida;
     
     ConectarBD conexion = new ConectarBD();
-    
-    
     
     //---CONSTRUCTOR------------------------------------------------------------
     public VistaFormularioDeInscripcion() {
@@ -47,23 +44,19 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
         llenarCombo();
         colocarTitulosTabla();
      
-        
-        jbtInscribir.setEnabled(false);
+        jbtInscribir.setEnabled(false);                                         //<---inializamos los botones y seteamos el combo box para que no este seleccionado ningun alumno
         jbtAnularInscripcion.setEnabled(false);
-       
         jcbxAlumnos.setSelectedIndex(-1);
     }
 
     //**************************** METODOS *************************************
     //--------------------------------------------------------------------------
-
-    
     
     private void borrarFilas(){
     
         //---CADA FILA EN LA EN EL MODELO, ES  UN AREGLO DE OBJETOS---
         
-        int fila = (modelo.getRowCount() -1 ); //---tengo la pocision d ela ultima fila  
+        int fila = (modelo.getRowCount() -1 ); //<---tengo la pocision d ela ultima fila  
         
         // borramnos de atras para adelante 
         
@@ -71,13 +64,12 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
             
             modelo.removeRow(i);
         }
-        
-        
+
     }
     
     //--------------------------------------------------------------------------
     
-    public void colocarTitulosTabla(){    
+    private void colocarTitulosTabla(){    
         
         ArrayList <Object> columnasTabla = new ArrayList<>();
         
@@ -92,20 +84,16 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
         }
         
         jtableMaterias.setModel(modelo);
-        
-        
-        
-        
-        
+     
     }
     
     //-------------------------------------------------------------------------- 
     
-    private void cargarTablaConMateriasInscriptas(){
+    private void cargarTablaConMateriasInscriptas(){                            
     
         borrarFilas();
         
-        alumnoSeleccionado = (Alumno) jcbxAlumnos.getSelectedItem();     //<---Alumno seleccionado ene l combobox    
+        alumnoSeleccionado = (Alumno) jcbxAlumnos.getSelectedItem();            //<---Alumno seleccionado ene l combobox    
         
         cursadaData = new CursadaData(conexion);
                                     
@@ -113,11 +101,10 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
     
         for( Materia listMatInsIt : listaMateriaInscriptas){
         
-             modelo.addRow(new Object[]{listMatInsIt.getId(), listMatInsIt.getNombre(),listMatInsIt.getAnio()});
+             modelo.addRow(new Object[]{listMatInsIt.getId(), listMatInsIt.getNombre(),listMatInsIt.getAnio()});    
         
         }
-        
-        
+
     }
     
     //-------------------------------------------------------------------------- 
@@ -125,7 +112,7 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
     
         borrarFilas();
         
-        alumnoSeleccionado = (Alumno) jcbxAlumnos.getSelectedItem();     //<---Alumno seleccionado en el combobox    
+        alumnoSeleccionado = (Alumno) jcbxAlumnos.getSelectedItem();            //<---Alumno seleccionado en el combobox    
         
         cursadaData = new CursadaData(conexion);
                                     
@@ -134,10 +121,9 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
         for( Materia listMatInsIt : listaMateriaNoInscriptas){
         
              modelo.addRow(new Object[]{listMatInsIt.getId(), listMatInsIt.getNombre(),listMatInsIt.getAnio()});
-        
+
         }
-        
-        
+     
     }
     //--------------------------------------------------------------------------    
     private void llenarCombo(){
@@ -152,6 +138,7 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
         }
   
     }    
+    //--------------------------------------------------------------------------    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -324,20 +311,20 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    //-------------------------------------------------------------------------- 
     private void jbtSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtSalirActionPerformed
         this.dispose();
     }//GEN-LAST:event_jbtSalirActionPerformed
-
+    //-------------------------------------------------------------------------- 
     private void jradiobtInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jradiobtInscriptasActionPerformed
+        
         jbtInscribir.setEnabled(false);
         jbtAnularInscripcion.setEnabled(true);
         jradiobtNoInscriptas.setSelected(false);
         
-        
         borrarFilas();
        
-        if (jcbxAlumnos.getSelectedIndex() != -1){                              //<---Si hay un alumno sleeccionado
+        if (jcbxAlumnos.getSelectedIndex() != -1){                              //<---Si hay un alumno sleeccionado, cargue la tabla con materias inscriptas
             cargarTablaConMateriasInscriptas();
         }else{
             JOptionPane.showMessageDialog(null," Debe seleccioanr un alumno");
@@ -345,7 +332,7 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
         }
         
     }//GEN-LAST:event_jradiobtInscriptasActionPerformed
-
+    //-------------------------------------------------------------------------- 
     private void jradiobtNoInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jradiobtNoInscriptasActionPerformed
         jbtInscribir.setEnabled(true);
         jbtAnularInscripcion.setEnabled(false);
@@ -354,7 +341,7 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
         
         
         
-        if (jcbxAlumnos.getSelectedIndex() != -1){                              //<---Si hay un alumno sleeccionado
+        if (jcbxAlumnos.getSelectedIndex() != -1){                              //<---Si hay un alumno sleeccionado, cargue la tabla con materias no inscriptas
             cargarTablaConMateriasNoInscriptas();
         }else{
             JOptionPane.showMessageDialog(null," Debe seleccioanr un alumno");
@@ -362,19 +349,17 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
         }
         
     }//GEN-LAST:event_jradiobtNoInscriptasActionPerformed
-
+    //-------------------------------------------------------------------------- 
     private void jcbxAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbxAlumnosActionPerformed
         jradiobtInscriptas.setSelected(false);
         jradiobtNoInscriptas.setSelected(false);
         borrarFilas();
     }//GEN-LAST:event_jcbxAlumnosActionPerformed
-
+    //-------------------------------------------------------------------------- 
     private void jtableMateriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtableMateriasMouseClicked
                                                                                 //---En este Evento, selecciona una fila de la tabla 
-            
             MateriaData materiaData = new MateriaData(conexion);
-        
-            
+
             int filaSeleccionada = jtableMaterias.getSelectedRow();             //<---devuelve la fila seleccioanda
             
             if ( filaSeleccionada!= -1){                                        //<---Si la fila seleccionada, tiene un elemento seleccionado 
@@ -384,7 +369,7 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
                 materiaElegida = materiaData.buscarMateria(idMateriaSeleccionada); //<--- Con ese id, bucamos la materia y lo almacenamos en el atributo materiaElegida
             }
     }//GEN-LAST:event_jtableMateriasMouseClicked
-
+    //-------------------------------------------------------------------------- 
     private void jbtInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtInscribirActionPerformed
   
         Cursada cursada  = new Cursada(materiaElegida,alumnoSeleccionado,-1,true); //<--- -1 significa que todavia no tiene nota
@@ -403,7 +388,7 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
         borrarFilas();                                                          //<---La tabla se limpia
         jcbxAlumnos.requestFocus();                                             //<---El foco queda en el combo 
     }//GEN-LAST:event_jbtInscribirActionPerformed
-
+    //-------------------------------------------------------------------------- 
     private void jbtAnularInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtAnularInscripcionActionPerformed
  
         Cursada cursada  = new Cursada(materiaElegida,alumnoSeleccionado,-1,true); //<--- -1 significa que todavia no tiene nota
@@ -422,7 +407,7 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
         borrarFilas();                                                          //<---La tabla se limpia
         jcbxAlumnos.requestFocus();                                             //<---El foco queda en el combo 
     }//GEN-LAST:event_jbtAnularInscripcionActionPerformed
-
+    //-------------------------------------------------------------------------- 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;

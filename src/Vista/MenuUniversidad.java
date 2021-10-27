@@ -32,15 +32,13 @@ public class MenuUniversidad extends javax.swing.JFrame {
         
         this.setLocationRelativeTo(null);                                       //<---Para que centre el formulario principal en la panatalla
     
-        setIconImage( new ImageIcon(getClass().getResource("/imagenes/icono 5.png")).getImage()); 
+        setIconImage( new ImageIcon(getClass().getResource("/imagenes/icono 5.png")).getImage()); //<---Seteamos el icono del Menu principal
         
     }
 
     //**************************** METODOS *************************************
     
     //--- METODO BORRAR TABLAS -------------------------------------------------
-    
-    
     
     private void borraTablasBD(){
 
@@ -160,13 +158,8 @@ public class MenuUniversidad extends javax.swing.JFrame {
             }
         
     }
-    
  
- 
-
-    //--------------------------------------------------------------------
-    //--------------------------------------------------------------------
-    //--------------------------------------------------------------------
+          //--------------------------------------------------------------------
         
         
         
@@ -305,11 +298,11 @@ public class MenuUniversidad extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    //--------------------------------------------------------------------
     private void jMenuItmSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItmSalirActionPerformed
         this.dispose();
     }//GEN-LAST:event_jMenuItmSalirActionPerformed
-
+    //--------------------------------------------------------------------
     private void jMenuItmManejoDeIncripcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItmManejoDeIncripcionesActionPerformed
         // Limpiamos el escritorio
         jDekPanEscritorio.removeAll();
@@ -326,30 +319,30 @@ public class MenuUniversidad extends javax.swing.JFrame {
         // Seteamos visible a la vista
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItmManejoDeIncripcionesActionPerformed
-
+    //--------------------------------------------------------------------
     private void jMenuMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuMateriasActionPerformed
 
     }//GEN-LAST:event_jMenuMateriasActionPerformed
-
+    //--------------------------------------------------------------------
     private void jMenuItmMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItmMateriasActionPerformed
-        // Limpiamos el escritorio
+        //--- Limpiamos el escritorio
         jDekPanEscritorio.removeAll();
         jDekPanEscritorio.repaint();
         
         VistaMateria form = new VistaMateria();
         
-        // agregamos la vista al escritorio
+        //--- Agregamos la vista al escritorio
         jDekPanEscritorio.add(form);
-        // centramos la vista dentro del escritoio
+        //--- Centramos la vista dentro del escritoio
         Dimension desktopSize = jDekPanEscritorio.getSize();
         Dimension FrameSize = form.getSize();
         form.setLocation((desktopSize.width - FrameSize.width)/2, (desktopSize.height- FrameSize.height)/2);
-        // Seteamos visible a la vista
+        //---Seteamos visible a la vista
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItmMateriasActionPerformed
-
+    //--------------------------------------------------------------------
     private void jMenuItmAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItmAlumnosActionPerformed
-        // Limpiamos el escritorio
+       
         jDekPanEscritorio.removeAll();
         jDekPanEscritorio.repaint();
         
@@ -364,7 +357,7 @@ public class MenuUniversidad extends javax.swing.JFrame {
         // Seteamos visible a la vista
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItmAlumnosActionPerformed
-
+    //--------------------------------------------------------------------
     private void jMenuItmManipulacionDeNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItmManipulacionDeNotasActionPerformed
         // Limpiamos el escritorio
         jDekPanEscritorio.removeAll();
@@ -381,7 +374,7 @@ public class MenuUniversidad extends javax.swing.JFrame {
         // Seteamos visible a la vista
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItmManipulacionDeNotasActionPerformed
-
+    //--------------------------------------------------------------------
     private void jMenuItmListDeAlumnoXMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItmListDeAlumnoXMateriaActionPerformed
         // Limpiamos el escritorio
         jDekPanEscritorio.removeAll();
@@ -398,7 +391,7 @@ public class MenuUniversidad extends javax.swing.JFrame {
         // Seteamos visible a la vista
         form.setVisible(true);
     }//GEN-LAST:event_jMenuItmListDeAlumnoXMateriaActionPerformed
-
+    //--------------------------------------------------------------------
     /**
      * @param args the command line arguments
      */
@@ -433,7 +426,7 @@ public class MenuUniversidad extends javax.swing.JFrame {
             }
         });
     }
-
+    //--------------------------------------------------------------------
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDekPanEscritorio;
     private javax.swing.JMenu jMenuAlumnos;
