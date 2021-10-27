@@ -108,7 +108,7 @@ public class VistaManipulacionDeNotas extends javax.swing.JInternalFrame {
         
         
     }
-        //--------------------------------------------------------------------------    
+        
     private void llenarCombo(){
 
         AlumnoData alumnoData = new AlumnoData(conexion);
@@ -122,13 +122,13 @@ public class VistaManipulacionDeNotas extends javax.swing.JInternalFrame {
   
     }    
     
-    //-------------------------------------------------------------------------- 
+
     
     private void cargarTablaConMateriasInscriptas(){
         String nota;
         borrarFilas();
         
-        alumnoSeleccionado = (Alumno) jcbxAlumnos.getSelectedItem();            //<---Alumno seleccionado en el combobox    
+        alumnoSeleccionado = (Alumno) jcbxAlumnos.getSelectedItem();               
         
         cursadaData = new CursadaData(conexion);
          
@@ -140,7 +140,7 @@ public class VistaManipulacionDeNotas extends javax.swing.JInternalFrame {
 
                 if( listMatCursIt.getAlumno().getId() == alumnoSeleccionado.getId() ){
                     
-                    if(listMatCursIt.getNota() != -1){                          //<--- si algun alumno, todavia no tiene nota, en vez de un numero pone una leyenda (sin nota)
+                    if(listMatCursIt.getNota() != -1){                         
                        nota = listMatCursIt.getNota() + ""; 
                     }else{
                         nota = "(sin nota)";
@@ -153,7 +153,7 @@ public class VistaManipulacionDeNotas extends javax.swing.JInternalFrame {
         }    
     }
     
-    //-------------------------------------------------------------------------- 
+ 
     
     private boolean guardarCambios(){
                
