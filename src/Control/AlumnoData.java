@@ -105,6 +105,42 @@ public class AlumnoData {
 
         return alumnoObj;
     }
+     //----METODO - BUSCAR ALUMNO por legajo ----------------------------------------------
+    public Alumno buscarAlumnoLegajo(int legajo){
+       
+          Alumno alumnoObj = null;
+          String sentenciaSql = "SELECT * "
+                              + "FROM alumno "
+                              + "WHERE legajo = ? ";
+          
+          try {
+              
+                PreparedStatement prepStatem = conexion.prepareStatement(sentenciaSql); 
+                prepStatem.setInt(1, legajo);
+
+                ResultSet resultSet = prepStatem.executeQuery();  
+
+                while(resultSet.next()){                                        //<--- Mientras haya algo ene l resulSet, se va seteando de a uno 
+
+                    alumnoObj = new Alumno();
+
+                    alumnoObj.setId(resultSet.getInt("idAlumno"));
+                    alumnoObj.setNombre(resultSet.getString("nombre"));
+                    alumnoObj.setApellido(resultSet.getString("apellido"));
+                    alumnoObj.setFechaNac(resultSet.getDate("fechaNac").toLocalDate());   
+                    alumnoObj.setLegajo(resultSet.getInt("legajo"));
+                    alumnoObj.setActivo(resultSet.getBoolean("activo"));
+                }    
+                
+                prepStatem.close();                                             //<---Cerramos el Statement 
+            
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null,"Error al buscar alumno!" + ex); //<--- adicionamos el error solo por el practico
+            }
+
+        return alumnoObj;
+    }
+   
     
     //----METODO - LISTAR ALUMNOS ----------------------------------------------
     public List<Alumno> listarAlumnos(){                                        

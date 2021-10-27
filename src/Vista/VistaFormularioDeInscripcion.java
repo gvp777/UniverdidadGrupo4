@@ -100,6 +100,7 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
     }
     
     //-------------------------------------------------------------------------- 
+    
     private void cargarTablaConMateriasInscriptas(){
     
         borrarFilas();
@@ -184,7 +185,7 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
         jlbAlumno.setText("Alumno");
 
         jlbFormularioDeInscripcion.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jlbFormularioDeInscripcion.setText("FORMULARIO DE INSCRIPCION");
+        jlbFormularioDeInscripcion.setText("  FORMULARIO DE INSCRIPCION ");
 
         jbtInscribir.setText("Inscribir");
         jbtInscribir.addActionListener(new java.awt.event.ActionListener() {
@@ -274,10 +275,6 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jlbFormularioDeInscripcion)
-                .addGap(35, 35, 35))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -298,7 +295,11 @@ public class VistaFormularioDeInscripcion extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(69, 69, 69)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jlbFormularioDeInscripcion)
+                .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

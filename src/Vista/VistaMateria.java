@@ -1,9 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Vista;
+
+
+import Control.ConectarBD;
+import Control.MateriaData;
+import Modelo.Materia;
+import java.awt.Color;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -11,11 +15,26 @@ package Vista;
  */
 public class VistaMateria extends javax.swing.JInternalFrame {
 
+    
+    private MateriaData materiaData;
+    private ConectarBD conexion;
+
     /**
      * Creates new form VistaMateria
      */
-    public VistaMateria() {
+    public VistaMateria() {// profe lucho crea los constructores conexion y materiadata
         initComponents();
+        conexion = new ConectarBD();
+        
+        materiaData = new MateriaData(conexion);
+
+        jcActivo.setSelected(false);
+        
+        jbGuardar.setEnabled(false);
+        jbBorrar.setEnabled(false);
+        jbActualizar.setEnabled(false);
+        
+        
     }
 
     /**
@@ -30,35 +49,53 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        jlCodigo = new javax.swing.JLabel();
+        jlNombre = new javax.swing.JLabel();
+        jlAnio = new javax.swing.JLabel();
+        jbBuscar = new javax.swing.JButton();
+        jcActivo = new javax.swing.JCheckBox();
         jtId = new javax.swing.JTextField();
-        jtNombre = new javax.swing.JTextField();
         jtAnio = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        jtNombre = new javax.swing.JTextField();
         jbGuardar = new javax.swing.JButton();
         jbBorrar = new javax.swing.JButton();
         jbActualizar = new javax.swing.JButton();
         jbLimpiar = new javax.swing.JButton();
 
         setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("MATERIAS");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
 
-        jLabel2.setText("Codigo");
+        jlCodigo.setText("Codigo");
 
-        jLabel3.setText("Nombre");
+        jlNombre.setText("Nombre");
 
-        jLabel4.setText("Año");
+        jlAnio.setText("Año");
 
-        jCheckBox1.setText("Estado");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        jbBuscar.setText("Buscar");
+        jbBuscar.setToolTipText("\"Solo busca materias activas\"");
+        jbBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                jbBuscarActionPerformed(evt);
+            }
+        });
+
+        jcActivo.setText("Activo");
+
+        jtNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtNombreActionPerformed(evt);
+            }
+        });
+        jtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtNombreKeyPressed(evt);
             }
         });
 
@@ -67,21 +104,22 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
+                    .addComponent(jlNombre)
+                    .addComponent(jlAnio)
+                    .addComponent(jlCodigo))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jtNombre)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel2))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtId, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(153, 153, 153)
-                        .addComponent(jCheckBox1)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jtId, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jbBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jcActivo)))
+                    .addComponent(jtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -89,28 +127,54 @@ public class VistaMateria extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jtId, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jlCodigo)
+                    .addComponent(jbBuscar)
+                    .addComponent(jtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jtAnio))
+                    .addComponent(jlNombre)
+                    .addComponent(jtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlAnio)
+                    .addComponent(jtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox1)
+                .addComponent(jcActivo)
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
         jbGuardar.setText("Guardar");
+        jbGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGuardarActionPerformed(evt);
+            }
+        });
+        jbGuardar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jbGuardarKeyPressed(evt);
+            }
+        });
 
         jbBorrar.setText("Borrar");
+        jbBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBorrarActionPerformed(evt);
+            }
+        });
 
         jbActualizar.setText("Actualizar");
+        jbActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbActualizarActionPerformed(evt);
+            }
+        });
 
         jbLimpiar.setText("Limpiar");
+        jbLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbLimpiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -149,29 +213,285 @@ public class VistaMateria extends javax.swing.JInternalFrame {
                     .addComponent(jbBorrar)
                     .addComponent(jbActualizar)
                     .addComponent(jbLimpiar))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    
+   
+    private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
+        try {
+            
+            int cod = Integer.parseInt(jtAnio.getText());
+            
+            
+                if (jtNombre.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "El campo Nombre debe ser completado");
+                    jtNombre.requestFocus();
+                }else if (jtAnio.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "El campo Año debe ser completado");
+                    jtAnio.requestFocus();
+                    }else if (!jtId.getText().equals("")) {
+                        JOptionPane.showMessageDialog(null, "El campo ID debe estar vacio\npara registar una nueva materia!");
+                        
+                        jtId.setText("");
+                        jtNombre.setText("");
+                        jtAnio.setText("");
+                        jtId.requestFocus();
+                        jtId.selectAll();
+                        
+                        }else{    
+                            jtId.setText("");
+                            String nombre = jtNombre.getText(); // nombre
+                            int anio = Integer.parseInt(jtAnio.getText()); // año
+                            boolean activo = jcActivo.isEnabled();//activo
+
+                            if (anio < 1 || anio > 5){
+                                JOptionPane.showMessageDialog(null, "El año de una materia es desde el 1 hasta el 5");
+                            }else{    
+                                Materia materia = new Materia(nombre, anio, activo);
+
+                                if (materiaData.guardarMateria(materia)) {
+                                    jtId.setText(materia.getId() + "");
+                                    jtId.setForeground(Color.RED);
+                                    JOptionPane.showMessageDialog(null, "Materia guardada con el ID: " + jtId.getText());
+                                    jbGuardar.setEnabled(false);
+                                    jbBorrar.setEnabled(false);
+                                    jbActualizar.setEnabled(false);    
+                                }else{
+                                    JOptionPane.showMessageDialog(null, "No se pudo guardar la Materia");
+                                }
+                                
+                            }    
+            }
+
+        } catch (NumberFormatException e) {
+
+            if (!jtId.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "Solo acepta numeros");
+                jtId.requestFocus();
+            }else{
+                JOptionPane.showMessageDialog(this, "Revise los datos ingresados Por Favor !");
+            }   
+        }
+    }//GEN-LAST:event_jbGuardarActionPerformed
+
+    private void jbBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBorrarActionPerformed
+        try {
+            int cod = Integer.parseInt(jtId.getText());
+            cod = Integer.parseInt(jtAnio.getText());
+
+            
+            if (jtId.getText().equals("") || jtNombre.getText().equals("") || jtAnio.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, " Hay campos en blancos debe completarlos");
+
+            } else {
+                int id = Integer.parseInt(jtId.getText());
+           
+                if (materiaData.borrarMateria(id)) {
+                    JOptionPane.showMessageDialog(null, " Materia desactivada");
+                    jcActivo.setSelected(false);
+                    
+                    jbGuardar.setEnabled(false);
+                    jbBorrar.setEnabled(false);
+                    jbActualizar.setEnabled(false);
+                
+                } else {
+                    JOptionPane.showMessageDialog(null, " No se pudo desactivar la Materia");
+                }
+
+            }
+
+        } catch (NumberFormatException e) {
+
+            if (!jtId.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "solo acepta numeros");
+                jtId.requestFocus();
+            }else{
+                JOptionPane.showMessageDialog(this, "Revise los datos ingresados Por Favor !");
+            }   
+        }
+    }//GEN-LAST:event_jbBorrarActionPerformed
+
+    private void jbActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbActualizarActionPerformed
+
+         try {
+            
+            int cod = Integer.parseInt(jtAnio.getText());
+            
+            
+                if (jtNombre.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "El campo Nombre debe ser completado");
+                    jtNombre.requestFocus();
+                }else if (jtAnio.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "El campo Año debe ser completado");
+                    jtAnio.requestFocus();
+                    }else if (jtId.getText().equals("")) {
+                        JOptionPane.showMessageDialog(null, "El campo ID NO DEBE estar vacio\npara actualizar una materia!");
+                        
+                        jtId.requestFocus();
+                        jtId.selectAll();
+                        
+                        }else{    
+                            int idMat = Integer.parseInt(jtId.getText()); //id materia
+                            String nombre = jtNombre.getText(); // nombre
+                            int anio = Integer.parseInt(jtAnio.getText()); // año
+                            boolean activo = jcActivo.isEnabled();//activo
+
+                            if (anio < 1 || anio > 5){
+                                JOptionPane.showMessageDialog(null, "El año de una materia es desde el 1 hasta el 5");
+                            }else{    
+                                Materia materia = new Materia(idMat,nombre, anio, activo);
+
+                                if (materiaData.actualizarMateria(materia)) {
+                                    
+                                    jtId.setForeground(Color.BLUE);
+                                    JOptionPane.showMessageDialog(null, "Materia actualizada!");
+                                    
+                                    jbGuardar.setEnabled(false);
+                                    jbBorrar.setEnabled(false);
+                                    jbActualizar.setEnabled(false);
+
+                                }else{
+                                    JOptionPane.showMessageDialog(null, "No se pudo actualizar la Materia");
+                                }
+                                
+                            }    
+            }
+
+        } catch (NumberFormatException e) {
+
+            if (!jtId.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "Solo acepta numeros");
+                jtId.requestFocus();
+            }else{
+                JOptionPane.showMessageDialog(this, "Revise los datos ingresados Por Favor !");
+            }   
+        }
+        
+        
+        
+        
+/*
+        try {
+            int cod = Integer.parseInt(jtId.getText());
+            cod = Integer.parseInt(jtAnio.getText());
+
+            int id = Integer.parseInt(jtId.getText());
+
+            if (materiaData.borrarMateria(id)) {
+                JOptionPane.showMessageDialog(null, " Materia Actualizada");
+                
+                
+
+            } else {
+                JOptionPane.showMessageDialog(null, " No se pudo Actualizar la Materia");
+            }
+        } catch (NumberFormatException e) {
+
+            if (!jtId.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "solo acepta numeros");
+                jtId.requestFocus();
+            }else{
+                JOptionPane.showMessageDialog(this, "Revise los datos ingresados Por Favor !");
+            }   
+        }
+*/
+
+    }//GEN-LAST:event_jbActualizarActionPerformed
+
+    private void jbLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+        jtId.setText("");// deja todos los campos vacios
+        jtNombre.setText("");
+        jtAnio.setText("");
+        jtId.setForeground(Color.BLACK);
+        
+        jbGuardar.setEnabled(false);
+        jbBorrar.setEnabled(false);
+        jbActualizar.setEnabled(false);
+        
+        jtId.requestFocus();
+        
+       
+    }//GEN-LAST:event_jbLimpiarActionPerformed
+
+    private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
+        
+        
+        jbGuardar.setEnabled(false);
+        jbBorrar.setEnabled(true);
+        jbActualizar.setEnabled(true);
+        
+         try {
+        
+            // TODO add your handling code here:
+            int id = Integer.parseInt(jtId.getText());// convierto 
+
+            Materia mat = materiaData.buscarMateria(id); // creo paquete materia para buscar con id 
+
+            if (mat != null) {
+                jtId.setText(mat.getId() + "");
+                jtNombre.setText(mat.getNombre());
+                jtAnio.setText(mat.getAnio() + "");
+                jcActivo.setSelected(mat.isActivo());
+            }else{
+                JOptionPane.showMessageDialog(this, "No se encontro una materia activa con el ID: " + id);
+                jtId.requestFocus();
+            }
+        
+        } catch (NumberFormatException e) {
+
+            if (!jtId.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "Debe colocar un numero de ID");
+                jtId.requestFocus();
+            }else{
+                JOptionPane.showMessageDialog(this, "Revise los datos ingresados Por Favor !");
+            }   
+
+         
+        }    
+
+    }//GEN-LAST:event_jbBuscarActionPerformed
+
+    private void jtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtNombreActionPerformed
+        
+ 
+    }//GEN-LAST:event_jtNombreActionPerformed
+
+    private void jbGuardarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbGuardarKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbGuardarKeyPressed
+
+    private void jtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtNombreKeyPressed
+          if(!jtNombre.getText().equals("")){
+            jbGuardar.setEnabled(true);
+            jbBorrar.setEnabled(false);
+            jbActualizar.setEnabled(false);
+          }else{
+            jbGuardar.setEnabled(false);
+            jbBorrar.setEnabled(false);
+            jbActualizar.setEnabled(false);
+          
+          }
+    }//GEN-LAST:event_jtNombreKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton jbActualizar;
     private javax.swing.JButton jbBorrar;
+    private javax.swing.JButton jbBuscar;
     private javax.swing.JButton jbGuardar;
     private javax.swing.JButton jbLimpiar;
+    private javax.swing.JCheckBox jcActivo;
+    private javax.swing.JLabel jlAnio;
+    private javax.swing.JLabel jlCodigo;
+    private javax.swing.JLabel jlNombre;
     private javax.swing.JTextField jtAnio;
     private javax.swing.JTextField jtId;
     private javax.swing.JTextField jtNombre;

@@ -12,8 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
 
